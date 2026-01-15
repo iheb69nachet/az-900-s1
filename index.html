@@ -1,96 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
+<head>
+<meta charset="UTF-8">
+<title>AZ-900 Quiz – Azure Fundamentals</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0078d4, #003a6d);
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 800px;
+    background: #fff;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  }
+  h1 {
+    text-align: center;
+    color: #0078d4;
+  }
+  .question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .option {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+  }
+  .option:hover {
+    background: #eef6ff;
+    border-color: #0078d4;
+  }
+  .correct {
+    background: #d4edda;
+    border-color: #28a745;
+  }
+  .wrong {
+    background: #f8d7da;
+    border-color: #dc3545;
+  }
+  .next-btn {
+    display: none;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .next-btn:hover {
+    background: #005fa3;
+  }
+  .progress {
+    text-align: right;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .score {
+    text-align: center;
+    font-size: 22px;
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>AZ-900 Quiz</h1>
+  <p style="text-align:center;color:#666">
+    Azure Fundamentals – 30 Questions
+  </p>
+
+  <div id="quiz">
+    <div class="progress" id="progress"></div>
+    <div class="question" id="question"></div>
+    <div id="options"></div>
+    <button class="next-btn" id="nextBtn">Next</button>
+  </div>
+
+  <div class="score" id="score" style="display:none;"></div>
+</div>
+
+<script>
+const questions = [
+  { q:"What is cloud elasticity?", o:["Fixed pricing","Manual scaling","On-demand scaling","Single server usage"], a:2 },
+  { q:"Which cloud model requires the most customer management?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
+  { q:"What is an Azure Region?", o:["One VM","A data center","A geographic area with data centers","A subnet"], a:2 },
+  { q:"Availability Zones are designed to protect against:", o:["Region failure","Datacenter failure","Network failure only","Cost increase"], a:1 },
+  { q:"How many Availability Zones are typically in a region?", o:["1","2","3","10"], a:2 },
+  { q:"Which service provides virtual servers in Azure?", o:["Azure App Service","Azure VM","Azure Functions","Azure Blob"], a:1 },
+  { q:"Which scaling increases VM size?", o:["Horizontal","Vertical","Elastic","Auto"], a:1 },
+  { q:"Which scaling adds more VM instances?", o:["Vertical","Manual","Horizontal","Static"], a:2 },
+  { q:"Which Azure service provides automatic VM scaling?", o:["App Service","VM Scale Sets","Azure Monitor","Azure Storage"], a:1 },
+  { q:"Which availability can be achieved with VMs in multiple AZs?", o:["99.5%","99.9%","99.95%","99.99%"], a:3 },
+
+  { q:"Which service is Platform as a Service?", o:["Azure VM","Azure App Service","Azure Disk","Azure VNet"], a:1 },
+  { q:"Who manages OS updates in PaaS?", o:["Customer","Azure","Third party","No one"], a:1 },
+  { q:"Which storage type is object storage?", o:["Azure Disks","Azure Files","Azure Blob","Azure Tables"], a:2 },
+  { q:"Which storage is best for VM OS disks?", o:["Blob","Files","Disks","Queues"], a:2 },
+  { q:"Which blob tier is cheapest for long-term archives?", o:["Hot","Cool","Cold","Archive"], a:3 },
+  { q:"Which storage account name rule is correct?", o:["Unique per RG","Unique per region","Globally unique","Case-sensitive"], a:2 },
+  { q:"Which Azure service provides private networking?", o:["Azure DNS","Azure VNet","Azure CDN","Azure Monitor"], a:1 },
+  { q:"What separates public and private resources?", o:["Regions","Zones","Subnets","Firewalls"], a:2 },
+  { q:"What controls traffic inside a VNet?", o:["Azure Firewall","NSG","DDoS","CDN"], a:1 },
+  { q:"What protects against large-scale network attacks?", o:["NSG","Azure Monitor","Azure DDoS","Azure VPN"], a:2 },
+
+  { q:"What is a Resource Group?", o:["Billing unit","Logical container","Subscription","Region"], a:1 },
+  { q:"A resource can belong to how many resource groups?", o:["Multiple","Two","One","Unlimited"], a:2 },
+  { q:"Deleting a resource group:", o:["Keeps resources","Moves resources","Deletes resources","Archives resources"], a:2 },
+  { q:"Which unit is used to manage billing?", o:["Region","Resource Group","Subscription","VNet"], a:2 },
+  { q:"Can subscriptions be merged?", o:["Yes","No","Only paid","Only free"], a:1 },
+  { q:"Which is highest in Azure hierarchy?", o:["Subscription","Resource Group","Management Group","Resource"], a:2 },
+  { q:"Tags are mainly used for:", o:["Security","Networking","Cost management","Availability"], a:2 },
+  { q:"Which service model requires least management?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
+  { q:"Azure App Service is best for:", o:["Databases","VM hosting","Web apps","Networking"], a:2 },
+  { q:"Which service is required before creating most Azure resources?", o:["VNet","Storage","Subscription","Region"], a:2 }
+];
+
+let index = 0;
+let score = 0;
+let answered = false;
+
+const qEl = document.getElementById("question");
+const optEl = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const scoreEl = document.getElementById("score");
+const progressEl = document.getElementById("progress");
+
+function loadQuestion() {
+  answered = false;
+  nextBtn.style.display = "none";
+  optEl.innerHTML = "";
+  progressEl.textContent = `Question ${index+1} of ${questions.length}`;
+
+  const q = questions[index];
+  qEl.textContent = q.q;
+
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(btn, i);
+    optEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(btn, i) {
+  if (answered) return;
+  answered = true;
+
+  const correct = questions[index].a;
+  document.querySelectorAll(".option").forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === correct) b.classList.add("correct");
+    if (idx === i && idx !== correct) b.classList.add("wrong");
+  });
+
+  if (i === correct) score++;
+  nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+  index++;
+  if (index < questions.length) {
+    loadQuestion();
+  } else {
+    showScore();
+  }
+};
+
+function showScore() {
+  document.getElementById("quiz").style.display = "none";
+  scoreEl.style.display = "block";
+  scoreEl.innerHTML = `
+    <h2>Quiz Completed 🎉</h2>
+    <p>Your Score: <strong>${score} / ${questions.length}</strong></p>
+    <p>${Math.round((score/questions.length)*100)}%</p>
+  `;
+}
+
+loadQuestion();
+</script>
+</body>
 </html>
