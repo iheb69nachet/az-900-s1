@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>AZ-900 Quiz – Azure Fundamentals</title>
+<title>Quiz AZ-900 – Fondamentaux Azure</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,7 +13,7 @@
     padding: 0;
   }
   .container {
-    max-width: 900px;
+    max-width: 800px;
     background: #fff;
     margin: 40px auto;
     padding: 30px;
@@ -80,16 +80,16 @@
 
 <body>
 <div class="container">
-  <h1>AZ-900 Quiz</h1>
+  <h1>Quiz AZ-900</h1>
   <p style="text-align:center;color:#666">
-    Azure Fundamentals – 45 Questions
+    Fondamentaux Azure – 30 questions
   </p>
 
   <div id="quiz">
     <div class="progress" id="progress"></div>
     <div class="question" id="question"></div>
     <div id="options"></div>
-    <button class="next-btn" id="nextBtn">Next</button>
+    <button class="next-btn" id="nextBtn">Suivant</button>
   </div>
 
   <div class="score" id="score" style="display:none;"></div>
@@ -97,55 +97,38 @@
 
 <script>
 const questions = [
-  { q:"What is cloud elasticity?", o:["Fixed pricing","Manual scaling","On-demand scaling","Single server usage"], a:2 },
-  { q:"Which cloud model requires the most customer management?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
-  { q:"What is an Azure Region?", o:["One VM","A data center","A geographic area with data centers","A subnet"], a:2 },
-  { q:"Availability Zones protect against:", o:["Region failure","Datacenter failure","Network failure only","Cost increase"], a:1 },
-  { q:"How many Availability Zones are typically in a region?", o:["1","2","3","10"], a:2 },
-  { q:"Which service provides virtual servers?", o:["App Service","Virtual Machines","Functions","Blob Storage"], a:1 },
-  { q:"Which scaling increases VM size?", o:["Horizontal","Vertical","Elastic","Auto"], a:1 },
-  { q:"Which scaling adds VM instances?", o:["Vertical","Manual","Horizontal","Static"], a:2 },
-  { q:"Which service provides automatic VM scaling?", o:["App Service","VM Scale Sets","Monitor","Storage"], a:1 },
-  { q:"Which availability can be achieved with multi-AZ VMs?", o:["99.5%","99.9%","99.95%","99.99%"], a:3 },
+  { q:"Qu’est-ce que l’élasticité du cloud ?", o:["Tarification fixe","Mise à l’échelle manuelle","Mise à l’échelle à la demande","Utilisation d’un seul serveur"], a:2 },
+  { q:"Quel modèle cloud nécessite le plus de gestion côté client ?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
+  { q:"Qu’est-ce qu’une région Azure ?", o:["Une machine virtuelle","Un centre de données","Une zone géographique avec des centres de données","Un sous-réseau"], a:2 },
+  { q:"Les zones de disponibilité sont conçues pour se protéger contre :", o:["La panne d’une région","La panne d’un centre de données","Uniquement les pannes réseau","L’augmentation des coûts"], a:1 },
+  { q:"Combien de zones de disponibilité y a-t-il généralement dans une région ?", o:["1","2","3","10"], a:2 },
+  { q:"Quel service fournit des serveurs virtuels dans Azure ?", o:["Azure App Service","Azure VM","Azure Functions","Azure Blob"], a:1 },
+  { q:"Quel type de mise à l’échelle augmente la taille d’une VM ?", o:["Horizontale","Verticale","Élastique","Automatique"], a:1 },
+  { q:"Quel type de mise à l’échelle ajoute des instances de VM ?", o:["Verticale","Manuelle","Horizontale","Statique"], a:2 },
+  { q:"Quel service Azure fournit la mise à l’échelle automatique des VM ?", o:["App Service","VM Scale Sets","Azure Monitor","Azure Storage"], a:1 },
+  { q:"Quelle disponibilité peut être atteinte avec des VM dans plusieurs zones ?", o:["99,5 %","99,9 %","99,95 %","99,99 %"], a:3 },
 
-  { q:"Which service is PaaS?", o:["VM","App Service","Disk","VNet"], a:1 },
-  { q:"Who manages OS updates in PaaS?", o:["Customer","Azure","Partner","No one"], a:1 },
-  { q:"Which is object storage?", o:["Disks","Files","Blob Storage","Tables"], a:2 },
-  { q:"Best storage for VM OS disks?", o:["Blob","Files","Disks","Queues"], a:2 },
-  { q:"Cheapest blob tier for long-term storage?", o:["Hot","Cool","Cold","Archive"], a:3 },
-  { q:"Storage account names must be:", o:["Unique per RG","Unique per region","Globally unique","Case-sensitive"], a:2 },
-  { q:"Azure private networking service?", o:["DNS","VNet","CDN","Monitor"], a:1 },
-  { q:"What divides a VNet?", o:["Regions","Zones","Subnets","Firewalls"], a:2 },
-  { q:"Controls inbound and outbound traffic?", o:["Firewall","NSG","DDoS","VPN"], a:1 },
-  { q:"Protects against large-scale attacks?", o:["NSG","Monitor","DDoS Protection","VPN"], a:2 },
+  { q:"Quel service est de type Platform as a Service (PaaS) ?", o:["Azure VM","Azure App Service","Azure Disk","Azure VNet"], a:1 },
+  { q:"Qui gère les mises à jour du système d’exploitation en PaaS ?", o:["Le client","Azure","Un tiers","Personne"], a:1 },
+  { q:"Quel type de stockage est un stockage objet ?", o:["Azure Disks","Azure Files","Azure Blob","Azure Tables"], a:2 },
+  { q:"Quel stockage est le plus adapté aux disques système des VM ?", o:["Blob","Files","Disks","Queues"], a:2 },
+  { q:"Quel niveau Blob est le moins cher pour l’archivage à long terme ?", o:["Hot","Cool","Cold","Archive"], a:3 },
+  { q:"Quelle règle de nommage de compte de stockage est correcte ?", o:["Unique par groupe de ressources","Unique par région","Globalement unique","Sensible à la casse"], a:2 },
+  { q:"Quel service Azure fournit un réseau privé ?", o:["Azure DNS","Azure VNet","Azure CDN","Azure Monitor"], a:1 },
+  { q:"Qu’est-ce qui sépare les ressources publiques et privées ?", o:["Les régions","Les zones","Les sous-réseaux","Les pare-feu"], a:2 },
+  { q:"Qu’est-ce qui contrôle le trafic à l’intérieur d’un VNet ?", o:["Azure Firewall","NSG","DDoS","CDN"], a:1 },
+  { q:"Qu’est-ce qui protège contre les attaques réseau à grande échelle ?", o:["NSG","Azure Monitor","Azure DDoS","Azure VPN"], a:2 },
 
-  { q:"What is a Resource Group?", o:["Billing unit","Logical container","Subscription","Region"], a:1 },
-  { q:"A resource belongs to how many RGs?", o:["Multiple","Two","One","Unlimited"], a:2 },
-  { q:"Deleting a resource group:", o:["Keeps resources","Moves resources","Deletes resources","Archives resources"], a:2 },
-  { q:"Primary billing boundary?", o:["Region","RG","Subscription","VNet"], a:2 },
-  { q:"Can subscriptions be merged?", o:["Yes","No","Only paid","Only free"], a:1 },
-  { q:"Highest level in hierarchy?", o:["Subscription","RG","Management Group","Resource"], a:2 },
-  { q:"Tags are mainly for:", o:["Security","Networking","Cost management","Availability"], a:2 },
-  { q:"Least customer responsibility?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
-  { q:"Azure App Service best for:", o:["Databases","VM hosting","Web apps","Networking"], a:2 },
-  { q:"Required before creating resources?", o:["VNet","Storage","Subscription","Region"], a:2 },
-
-  { q:"Who is responsible for physical datacenter security?", o:["Customer","Microsoft","Partner","Government"], a:1 },
-  { q:"Where can compliance reports be accessed?", o:["Azure Portal","Trust Center","Service Trust Portal","Docs"], a:2 },
-  { q:"GDPR focuses on:", o:["Security","Performance","Personal data protection","Availability"], a:2 },
-  { q:"ISO is:", o:["A law","A cloud provider","A standards organization","A service"], a:2 },
-  { q:"What data does GDPR protect?", o:["Financial","Public","PII","Encrypted"], a:2 },
-  { q:"Who controls data location selection?", o:["Microsoft","Customer","ISO","Azure Policy"], a:1 },
-  { q:"Which service controls compliance rules?", o:["Azure Monitor","Azure Policy","NSG","DDoS"], a:1 },
-  { q:"Which dashboard shows compliance status?", o:["Cost Mgmt","Security Center","Regulatory Compliance","Monitor"], a:2 },
-  { q:"What allows Microsoft access approval?", o:["RBAC","Customer Lockbox","Policy","NSG"], a:1 },
-  { q:"Data is protected using:", o:["Backups","Tags","Encryption","Regions"], a:2 },
-
-  { q:"What protects data during transfer?", o:["Firewall","Encryption in transit","NSG","DDoS"], a:1 },
-  { q:"What ensures data stored is protected?", o:["Backup","Encryption at rest","Policy","Tags"], a:1 },
-  { q:"Privacy terms are detailed in:", o:["SLA","Trust Center","Privacy Statement","Docs"], a:2 },
-  { q:"Shared responsibility means:", o:["Azure manages all","Customer manages all","Responsibilities are shared","No security"], a:2 },
-  { q:"Compliance requirements are:", o:["Microsoft only","Customer only","Shared","Optional"], a:2 }
+  { q:"Qu’est-ce qu’un groupe de ressources ?", o:["Une unité de facturation","Un conteneur logique","Un abonnement","Une région"], a:1 },
+  { q:"À combien de groupes de ressources une ressource peut-elle appartenir ?", o:["Plusieurs","Deux","Un seul","Illimité"], a:2 },
+  { q:"Supprimer un groupe de ressources :", o:["Conserve les ressources","Déplace les ressources","Supprime les ressources","Archive les ressources"], a:2 },
+  { q:"Quelle unité est utilisée pour gérer la facturation ?", o:["Région","Groupe de ressources","Abonnement","VNet"], a:2 },
+  { q:"Les abonnements peuvent-ils être fusionnés ?", o:["Oui","Non","Seulement payants","Seulement gratuits"], a:1 },
+  { q:"Quel est le niveau le plus élevé dans la hiérarchie Azure ?", o:["Abonnement","Groupe de ressources","Groupe de gestion","Ressource"], a:2 },
+  { q:"Les balises (tags) sont principalement utilisées pour :", o:["La sécurité","Le réseau","La gestion des coûts","La disponibilité"], a:2 },
+  { q:"Quel modèle de service nécessite le moins de gestion ?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
+  { q:"Azure App Service est le mieux adapté pour :", o:["Les bases de données","L’hébergement de VM","Les applications web","Le réseau"], a:2 },
+  { q:"Quel service est requis avant de créer la plupart des ressources Azure ?", o:["VNet","Stockage","Abonnement","Région"], a:2 }
 ];
 
 let index = 0;
@@ -162,7 +145,8 @@ function loadQuestion() {
   answered = false;
   nextBtn.style.display = "none";
   optEl.innerHTML = "";
-  progressEl.textContent = `Question ${index+1} of ${questions.length}`;
+  progressEl.textContent = `Question ${index+1} sur ${questions.length}`;
+
   const q = questions[index];
   qEl.textContent = q.q;
 
@@ -178,8 +162,8 @@ function loadQuestion() {
 function selectAnswer(btn, i) {
   if (answered) return;
   answered = true;
-  const correct = questions[index].a;
 
+  const correct = questions[index].a;
   document.querySelectorAll(".option").forEach((b, idx) => {
     b.disabled = true;
     if (idx === correct) b.classList.add("correct");
@@ -192,17 +176,20 @@ function selectAnswer(btn, i) {
 
 nextBtn.onclick = () => {
   index++;
-  if (index < questions.length) loadQuestion();
-  else showScore();
+  if (index < questions.length) {
+    loadQuestion();
+  } else {
+    showScore();
+  }
 };
 
 function showScore() {
   document.getElementById("quiz").style.display = "none";
   scoreEl.style.display = "block";
   scoreEl.innerHTML = `
-    <h2>Quiz Completed 🎉</h2>
-    <p><strong>${score} / ${questions.length}</strong></p>
-    <p>${Math.round((score/questions.length)*100)}%</p>
+    <h2>Quiz terminé 🎉</h2>
+    <p>Votre score : <strong>${score} / ${questions.length}</strong></p>
+    <p>${Math.round((score/questions.length)*100)} %</p>
   `;
 }
 
