@@ -24,6 +24,48 @@
     text-align: center;
     color: #0078d4;
   }
+  .login-screen {
+    text-align: center;
+  }
+  .login-screen input {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 2px solid #0078d4;
+    font-size: 16px;
+  }
+  .login-screen button {
+    padding: 15px 40px;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .login-screen button:hover {
+    background: #005fa3;
+  }
+  .user-info {
+    text-align: right;
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .logout-btn {
+    background: none;
+    border: none;
+    color: #0078d4;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+  .logout-btn:hover {
+    color: #005fa3;
+  }
   .question {
     font-size: 18px;
     font-weight: bold;
@@ -43,6 +85,9 @@
   .option:hover {
     background: #eef6ff;
     border-color: #0078d4;
+  }
+  .option:disabled {
+    cursor: not-allowed;
   }
   .correct {
     background: #d4edda;
@@ -67,13 +112,26 @@
     background: #005fa3;
   }
   .progress {
-    text-align: right;
+    text-align: left;
     color: #555;
     margin-bottom: 10px;
   }
   .score {
     text-align: center;
     font-size: 22px;
+  }
+  .restart-btn {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .restart-btn:hover {
+    background: #218838;
   }
 </style>
 </head>
@@ -82,105 +140,189 @@
 <div class="container">
   <h1>Quiz AZ-900</h1>
   <p style="text-align:center;color:#666">
-    Fondamentaux Azure – 30 questions
+    Fondamentaux Azure – 60 questions
   </p>
 
-  <div id="quiz">
-    <div class="progress" id="progress"></div>
-    <div class="question" id="question"></div>
-    <div id="options"></div>
-    <button class="next-btn" id="nextBtn">Suivant</button>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <h2>Bienvenue !</h2>
+    <p>Veuillez entrer votre nom complet pour commencer le quiz</p>
+    <input type="text" id="nameInput" placeholder="Nom complet" maxlength="50">
+    <br>
+    <button onclick="startQuiz()">Commencer le quiz</button>
   </div>
 
-  <div class="score" id="score" style="display:none;"></div>
+  <!-- Quiz Screen -->
+  <div id="quizScreen" style="display:none;">
+    <div class="user-info" id="userInfo">
+      <span id="userName"></span> | 
+      <button class="logout-btn" onclick="logout()">Se déconnecter</button>
+    </div>
+    <div id="quiz">
+      <div class="progress" id="progress"></div>
+      <div class="question" id="question"></div>
+      <div id="options"></div>
+      <button class="next-btn" id="nextBtn">Suivant</button>
+    </div>
+
+    <div class="score" id="score" style="display:none;"></div>
+  </div>
 </div>
 
 <script>
-// const questions = [
-//   { q:"Qu’est-ce que l’élasticité du cloud ?", o:["Tarification fixe","Mise à l’échelle manuelle","Mise à l’échelle à la demande","Utilisation d’un seul serveur"], a:2 },
-//   { q:"Quel modèle cloud nécessite le plus de gestion côté client ?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
-//   { q:"Qu’est-ce qu’une région Azure ?", o:["Une machine virtuelle","Un centre de données","Une zone géographique avec des centres de données","Un sous-réseau"], a:2 },
-//   { q:"Les zones de disponibilité sont conçues pour se protéger contre :", o:["La panne d’une région","La panne d’un centre de données","Uniquement les pannes réseau","L’augmentation des coûts"], a:1 },
-//   { q:"Combien de zones de disponibilité y a-t-il généralement dans une région ?", o:["1","2","3","10"], a:2 },
-//   { q:"Quel service fournit des serveurs virtuels dans Azure ?", o:["Azure App Service","Azure VM","Azure Functions","Azure Blob"], a:1 },
-//   { q:"Quel type de mise à l’échelle augmente la taille d’une VM ?", o:["Horizontale","Verticale","Élastique","Automatique"], a:1 },
-//   { q:"Quel type de mise à l’échelle ajoute des instances de VM ?", o:["Verticale","Manuelle","Horizontale","Statique"], a:2 },
-//   { q:"Quel service Azure fournit la mise à l’échelle automatique des VM ?", o:["App Service","VM Scale Sets","Azure Monitor","Azure Storage"], a:1 },
-//   { q:"Quelle disponibilité peut être atteinte avec des VM dans plusieurs zones ?", o:["99,5 %","99,9 %","99,95 %","99,99 %"], a:3 },
-
-//   { q:"Quel service est de type Platform as a Service (PaaS) ?", o:["Azure VM","Azure App Service","Azure Disk","Azure VNet"], a:1 },
-//   { q:"Qui gère les mises à jour du système d’exploitation en PaaS ?", o:["Le client","Azure","Un tiers","Personne"], a:1 },
-//   { q:"Quel type de stockage est un stockage objet ?", o:["Azure Disks","Azure Files","Azure Blob","Azure Tables"], a:2 },
-//   { q:"Quel stockage est le plus adapté aux disques système des VM ?", o:["Blob","Files","Disks","Queues"], a:2 },
-//   { q:"Quel niveau Blob est le moins cher pour l’archivage à long terme ?", o:["Hot","Cool","Cold","Archive"], a:3 },
-//   { q:"Quelle règle de nommage de compte de stockage est correcte ?", o:["Unique par groupe de ressources","Unique par région","Globalement unique","Sensible à la casse"], a:2 },
-//   { q:"Quel service Azure fournit un réseau privé ?", o:["Azure DNS","Azure VNet","Azure CDN","Azure Monitor"], a:1 },
-//   { q:"Qu’est-ce qui sépare les ressources publiques et privées ?", o:["Les régions","Les zones","Les sous-réseaux","Les pare-feu"], a:2 },
-//   { q:"Qu’est-ce qui contrôle le trafic à l’intérieur d’un VNet ?", o:["Azure Firewall","NSG","DDoS","CDN"], a:1 },
-//   { q:"Qu’est-ce qui protège contre les attaques réseau à grande échelle ?", o:["NSG","Azure Monitor","Azure DDoS","Azure VPN"], a:2 },
-
-//   { q:"Qu’est-ce qu’un groupe de ressources ?", o:["Une unité de facturation","Un conteneur logique","Un abonnement","Une région"], a:1 },
-//   { q:"À combien de groupes de ressources une ressource peut-elle appartenir ?", o:["Plusieurs","Deux","Un seul","Illimité"], a:2 },
-//   { q:"Supprimer un groupe de ressources :", o:["Conserve les ressources","Déplace les ressources","Supprime les ressources","Archive les ressources"], a:2 },
-//   { q:"Quelle unité est utilisée pour gérer la facturation ?", o:["Région","Groupe de ressources","Abonnement","VNet"], a:2 },
-//   { q:"Les abonnements peuvent-ils être fusionnés ?", o:["Oui","Non","Seulement payants","Seulement gratuits"], a:1 },
-//   { q:"Quel est le niveau le plus élevé dans la hiérarchie Azure ?", o:["Abonnement","Groupe de ressources","Groupe de gestion","Ressource"], a:2 },
-//   { q:"Les balises (tags) sont principalement utilisées pour :", o:["La sécurité","Le réseau","La gestion des coûts","La disponibilité"], a:2 },
-//   { q:"Quel modèle de service nécessite le moins de gestion ?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
-//   { q:"Azure App Service est le mieux adapté pour :", o:["Les bases de données","L’hébergement de VM","Les applications web","Le réseau"], a:2 },
-//   { q:"Quel service est requis avant de créer la plupart des ressources Azure ?", o:["VNet","Stockage","Abonnement","Région"], a:2 }
-// ];
 const questions = [
-  { q:"Quel est le principal objectif du cloud computing ?", o:["Remplacer Internet","Fournir des ressources informatiques à la demande","Créer des logiciels","Stocker uniquement des fichiers"], a:1 },
-  { q:"Quel type de cloud est partagé entre plusieurs organisations ?", o:["Cloud privé","Cloud hybride","Cloud public","Cloud local"], a:2 },
-  { q:"Quel type de cloud est dédié à une seule organisation ?", o:["Cloud public","Cloud privé","Cloud communautaire","Cloud hybride"], a:1 },
-  { q:"Le cloud hybride combine :", o:["Cloud public et privé","Deux clouds publics","Deux régions","Deux abonnements"], a:0 },
-  { q:"Quel est un exemple de service SaaS ?", o:["Azure Virtual Machine","Azure SQL Database","Microsoft 365","Azure Storage"], a:2 },
+  // Cloud Concepts (15 questions)
+  { q:"Qu'est-ce que le cloud computing ?", o:["Un réseau de câbles sous-marins","La fourniture de services informatiques via Internet","Un type de stockage physique","Un système d'exploitation"], a:1 },
+  { q:"Quel est l'avantage principal du modèle de paiement à l'usage (Pay-as-you-go) ?", o:["Coûts fixes garantis","Paiement uniquement pour les ressources utilisées","Pas de facturation","Paiement annuel obligatoire"], a:1 },
+  { q:"Qu'est-ce que l'élasticité dans le cloud ?", o:["La résistance aux pannes","La capacité d'ajuster automatiquement les ressources","La vitesse du réseau","Le nombre de datacenters"], a:1 },
+  { q:"Quel type de cloud offre les ressources via Internet au grand public ?", o:["Cloud privé","Cloud hybride","Cloud public","Cloud personnel"], a:2 },
+  { q:"Quel modèle cloud combine infrastructure sur site et cloud public ?", o:["Cloud privé","Cloud hybride","Cloud public","Multi-cloud"], a:1 },
+  { q:"Dans quel modèle de service le client gère uniquement les applications et données ?", o:["IaaS","PaaS","SaaS","DaaS"], a:1 },
+  { q:"Quel est un exemple de SaaS ?", o:["Azure Virtual Machines","Microsoft 365","Azure Storage","Windows Server"], a:1 },
+  { q:"Dans IaaS, qui gère le système d'exploitation ?", o:["Microsoft","Le fournisseur cloud","Le client","Personne"], a:2 },
+  { q:"Quel modèle nécessite le moins de gestion par le client ?", o:["IaaS","PaaS","SaaS","On-premises"], a:2 },
+  { q:"Qu'est-ce que la haute disponibilité (High Availability) ?", o:["Stockage rapide","Garantie de temps de disponibilité du service","Prix bas","Grande capacité"], a:1 },
+  { q:"Qu'est-ce que la scalabilité verticale ?", o:["Ajouter plus de machines","Augmenter la puissance d'une machine existante","Réduire les coûts","Changer de région"], a:1 },
+  { q:"Qu'est-ce que la scalabilité horizontale ?", o:["Augmenter la RAM","Ajouter plus d'instances de machines","Changer de datacenter","Réduire le stockage"], a:1 },
+  { q:"Quel concept fait référence à la tolérance aux pannes ?", o:["Scalability","Reliability","Elasticity","Agility"], a:1 },
+  { q:"Quel avantage du cloud permet de déployer rapidement des ressources ?", o:["Économie d'échelle","Agilité","Géo-distribution","Élasticité"], a:1 },
+  { q:"Les dépenses CapEx font référence à :", o:["Dépenses opérationnelles mensuelles","Investissements initiaux en infrastructure","Coûts variables","Abonnements logiciels"], a:1 },
 
-  { q:"Quel service Azure permet d’exécuter du code sans gérer de serveur ?", o:["Azure VM","Azure Functions","Azure App Service","Azure Kubernetes"], a:1 },
-  { q:"Quel service est utilisé pour gérer des conteneurs Kubernetes ?", o:["Azure VM","Azure Container Registry","Azure Kubernetes Service","Azure App Service"], a:2 },
-  { q:"Quel avantage principal offre la haute disponibilité ?", o:["Réduction des coûts","Meilleure sécurité","Continuité du service","Plus de stockage"], a:2 },
-  { q:"Quel mécanisme Azure permet la reprise après sinistre ?", o:["Scalabilité","Réplication","Sauvegarde","Surveillance"], a:1 },
-  { q:"Quel service Azure est utilisé pour sauvegarder des données ?", o:["Azure Monitor","Azure Backup","Azure Advisor","Azure Firewall"], a:1 },
+  // Azure Architecture (10 questions)
+  { q:"Qu'est-ce qu'une région Azure ?", o:["Un datacenter unique","Une zone géographique avec un ou plusieurs datacenters","Un type de VM","Un service réseau"], a:1 },
+  { q:"Combien de zones de disponibilité minimum dans une région Azure ?", o:["1","2","3","5"], a:2 },
+  { q:"À quoi servent les zones de disponibilité ?", o:["Réduire les coûts","Protéger contre les pannes de datacenter","Augmenter la vitesse","Gérer les utilisateurs"], a:1 },
+  { q:"Qu'est-ce qu'une paire de régions (Region Pair) ?", o:["Deux datacenters dans une région","Deux régions dans la même géographie pour la réplication","Deux abonnements","Deux groupes de ressources"], a:1 },
+  { q:"Quelle est la distance minimale entre deux régions appariées ?", o:["10 km","50 km","300 km","1000 km"], a:2 },
+  { q:"Qu'est-ce qu'un groupe de ressources (Resource Group) ?", o:["Un ensemble d'abonnements","Un conteneur logique pour les ressources Azure","Un type de VM","Un service de stockage"], a:1 },
+  { q:"Une ressource Azure peut appartenir à combien de groupes de ressources ?", o:["Plusieurs","Deux","Un seul","Illimité"], a:2 },
+  { q:"Que se passe-t-il si vous supprimez un groupe de ressources ?", o:["Rien","Les ressources sont déplacées","Toutes les ressources sont supprimées","Les ressources sont archivées"], a:2 },
+  { q:"Qu'est-ce qu'un abonnement Azure ?", o:["Un groupe de ressources","Une unité de gestion et de facturation","Une région","Un datacenter"], a:1 },
+  { q:"Quel est le niveau le plus élevé dans la hiérarchie Azure ?", o:["Abonnement","Groupe de ressources","Groupe de gestion","Compte Azure"], a:2 },
 
-  { q:"Quelle ressource est nécessaire pour créer une machine virtuelle ?", o:["Groupe de gestion","Abonnement","Région","Compte utilisateur"], a:1 },
-  { q:"Quel élément définit où une ressource est déployée ?", o:["Abonnement","Groupe de ressources","Région","Balise"], a:2 },
-  { q:"Quel service Azure fournit des bases de données relationnelles managées ?", o:["Azure VM","Azure Blob Storage","Azure SQL Database","Azure Files"], a:2 },
-  { q:"Quel service est utilisé pour surveiller les performances ?", o:["Azure Advisor","Azure Monitor","Azure Security Center","Azure Backup"], a:1 },
-  { q:"Quel service donne des recommandations Azure ?", o:["Azure Monitor","Azure Advisor","Azure Firewall","Azure Policy"], a:1 },
+  // Azure Services - Compute (8 questions)
+  { q:"Quel service fournit des machines virtuelles dans Azure ?", o:["Azure Functions","Azure Virtual Machines","Azure App Service","Azure Container Instances"], a:1 },
+  { q:"Quel service permet de déployer et gérer des conteneurs sans Kubernetes ?", o:["Azure VM","Azure Container Instances","Azure Kubernetes Service","Azure Batch"], a:1 },
+  { q:"Quel service Azure est une plateforme pour exécuter des applications Kubernetes ?", o:["Azure Container Instances","Azure Kubernetes Service (AKS)","Azure VM Scale Sets","Azure Batch"], a:1 },
+  { q:"Quel service permet d'exécuter du code sans gérer l'infrastructure (serverless) ?", o:["Azure VM","Azure Functions","Azure App Service","Azure Batch"], a:1 },
+  { q:"Azure App Service est un service de type :", o:["IaaS","PaaS","SaaS","On-premises"], a:1 },
+  { q:"Quel service permet la mise à l'échelle automatique des VM ?", o:["Azure Monitor","VM Scale Sets","Azure Backup","Azure Site Recovery"], a:1 },
+  { q:"Quel est le SLA maximum pour une VM avec des zones de disponibilité ?", o:["99,9%","99,95%","99,99%","100%"], a:2 },
+  { q:"Azure Virtual Desktop permet de :", o:["Créer des VM","Fournir des bureaux virtuels Windows","Gérer des containers","Surveiller les coûts"], a:1 },
 
-  { q:"Quel type de stockage est accessible via SMB ?", o:["Azure Blob","Azure Files","Azure Disks","Azure Tables"], a:1 },
-  { q:"Quel service Azure est utilisé pour stocker des messages ?", o:["Azure Files","Azure Queues","Azure Tables","Azure Disks"], a:1 },
-  { q:"Quel service permet de contrôler l’accès aux ressources ?", o:["Azure Policy","Azure Monitor","Azure Backup","Azure CDN"], a:0 },
-  { q:"Quel service gère les identités et accès dans Azure ?", o:["Azure IAM","Azure Active Directory","Azure DNS","Azure Firewall"], a:1 },
-  { q:"Quel concept repose sur le principe du moindre privilège ?", o:["Scalabilité","Haute disponibilité","Sécurité","Facturation"], a:2 },
+  // Azure Services - Storage (7 questions)
+  { q:"Quel service de stockage est utilisé pour les objets non structurés ?", o:["Azure Files","Azure Blob Storage","Azure Queue Storage","Azure Table Storage"], a:1 },
+  { q:"Quel niveau de stockage Blob est le moins cher pour l'archivage ?", o:["Hot","Cool","Cold","Archive"], a:3 },
+  { q:"Azure Files utilise quel protocole ?", o:["HTTP","FTP","SMB/NFS","SMTP"], a:2 },
+  { q:"Quel service de stockage est optimal pour les disques de VM ?", o:["Blob Storage","Azure Managed Disks","Azure Files","Queue Storage"], a:1 },
+  { q:"Les noms de compte de stockage Azure doivent être :", o:["Uniques par région","Uniques globalement","Sensibles à la casse","Jusqu'à 256 caractères"], a:1 },
+  { q:"Quel service stocke des données NoSQL de type clé-valeur ?", o:["Azure SQL","Azure Cosmos DB","Azure Blob","Azure Queue"], a:1 },
+  { q:"Quelle option de redondance réplique les données dans trois zones ?", o:["LRS","GRS","ZRS","RA-GRS"], a:2 },
 
-  { q:"Quel service protège les applications web contre les attaques ?", o:["Azure VPN","Azure Firewall","Web Application Firewall (WAF)","NSG"], a:2 },
-  { q:"Quel outil permet de restreindre les types de ressources créées ?", o:["Azure Monitor","Azure Policy","Azure Advisor","Azure Backup"], a:1 },
-  { q:"Quel élément permet de regrouper des abonnements ?", o:["Groupe de ressources","Région","Groupe de gestion","Balise"], a:2 },
-  { q:"Quel élément est utilisé pour organiser les coûts ?", o:["Régions","Balises (Tags)","VNets","Zones"], a:1 },
-  { q:"Quel modèle de tarification Azure est utilisé ?", o:["Paiement fixe","Paiement à l’usage","Abonnement annuel obligatoire","Licence unique"], a:1 },
+  // Azure Services - Networking (5 questions)
+  { q:"Qu'est-ce qu'Azure Virtual Network (VNet) ?", o:["Un service de stockage","Un réseau privé isolé dans Azure","Un type de VM","Un service de monitoring"], a:1 },
+  { q:"Quel service contrôle le trafic réseau entrant et sortant ?", o:["Azure Firewall","Network Security Group (NSG)","Azure Load Balancer","Azure CDN"], a:1 },
+  { q:"Quel service protège contre les attaques DDoS ?", o:["NSG","Azure DDoS Protection","Azure Firewall","VPN Gateway"], a:1 },
+  { q:"Quel service connecte un réseau local à Azure de manière sécurisée ?", o:["Azure CDN","VPN Gateway","Azure DNS","Load Balancer"], a:1 },
+  { q:"Azure ExpressRoute fournit :", o:["Connexion Internet publique","Connexion privée dédiée à Azure","Stockage cloud","Service de calcul"], a:1 },
 
-  { q:"Quel service Azure est utilisé pour connecter un réseau local à Azure ?", o:["Azure CDN","Azure VPN Gateway","Azure Firewall","Azure DNS"], a:1 },
-  { q:"Quel service fournit un réseau de diffusion de contenu ?", o:["Azure Monitor","Azure CDN","Azure VNet","Azure ExpressRoute"], a:1 },
-  { q:"Quel service permet une connexion privée dédiée à Azure ?", o:["Azure VPN","Azure ExpressRoute","Azure Firewall","Azure CDN"], a:1 },
-  { q:"Quel est l’objectif principal de la conformité ?", o:["Performance","Sécurité","Respect des normes légales","Réduction des coûts"], a:2 }
+  // Azure Services - Database (3 questions)
+  { q:"Quel service fournit une base de données SQL entièrement gérée ?", o:["Azure VM avec SQL","Azure SQL Database","Azure Storage","Azure Cosmos DB"], a:1 },
+  { q:"Azure Cosmos DB est une base de données :", o:["Relationnelle uniquement","NoSQL distribuée globalement","Fichier","En mémoire uniquement"], a:1 },
+  { q:"Quel service est idéal pour MySQL et PostgreSQL managés ?", o:["Azure SQL Database","Azure Database for MySQL/PostgreSQL","Azure Cosmos DB","Azure Table Storage"], a:1 },
+
+  // Azure Management & Governance (7 questions)
+  { q:"Quel outil permet de déployer des ressources de manière reproductible ?", o:["Azure Portal","Azure Resource Manager (ARM) Templates","Azure CLI","PowerShell"], a:1 },
+  { q:"Azure Policy permet de :", o:["Surveiller les coûts","Appliquer des règles de conformité","Créer des VM","Gérer le stockage"], a:1 },
+  { q:"Azure Blueprints permet de :", o:["Dessiner des architectures","Déployer des environnements conformes prédéfinis","Surveiller les ressources","Gérer les coûts"], a:1 },
+  { q:"Les balises (Tags) Azure sont principalement utilisées pour :", o:["La sécurité réseau","L'organisation et la gestion des coûts","La haute disponibilité","La réplication"], a:1 },
+  { q:"Azure Monitor collecte quels types de données ?", o:["Uniquement les logs","Métriques et logs","Uniquement les coûts","Uniquement les alertes"], a:1 },
+  { q:"Azure Advisor fournit :", o:["Des machines virtuelles","Des recommandations personnalisées","Du stockage","Des bases de données"], a:1 },
+  { q:"Azure Service Health informe sur :", o:["Les coûts","L'état des services Azure et incidents","Les performances VM","Le stockage disponible"], a:1 },
+
+  // Security & Compliance (5 questions)
+  { q:"Quel service gère les identités et l'authentification ?", o:["Azure Firewall","Azure Active Directory (Azure AD)","NSG","Azure Policy"], a:1 },
+  { q:"Qu'est-ce que l'authentification multifacteur (MFA) ?", o:["Un seul mot de passe","Plusieurs méthodes de vérification d'identité","Un type de chiffrement","Un service de stockage"], a:1 },
+  { q:"Azure Security Center fournit :", o:["Des VM","Gestion unifiée de la sécurité et protection contre les menaces","Du stockage","Des bases de données"], a:1 },
+  { q:"Quel principe de sécurité limite l'accès au minimum nécessaire ?", o:["Défense en profondeur","Principe du moindre privilège","Chiffrement","Authentification"], a:1 },
+  { q:"Azure Key Vault est utilisé pour :", o:["Stocker des fichiers","Gérer des secrets, clés et certificats","Créer des VM","Surveiller les coûts"], a:1 }
 ];
+
+let currentUser = null;
 let index = 0;
 let score = 0;
 let answered = false;
 
+const loginScreen = document.getElementById("loginScreen");
+const quizScreen = document.getElementById("quizScreen");
+const nameInput = document.getElementById("nameInput");
+const userNameEl = document.getElementById("userName");
 const qEl = document.getElementById("question");
 const optEl = document.getElementById("options");
 const nextBtn = document.getElementById("nextBtn");
 const scoreEl = document.getElementById("score");
 const progressEl = document.getElementById("progress");
 
+// Check if user is already logged in
+window.onload = function() {
+  const savedUser = localStorage.getItem('quizUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    loadUserProgress();
+    showQuizScreen();
+  }
+};
+
+function startQuiz() {
+  const name = nameInput.value.trim();
+  if (name === "") {
+    alert("Veuillez entrer votre nom complet");
+    return;
+  }
+  
+  currentUser = name;
+  localStorage.setItem('quizUser', currentUser);
+  
+  // Check if user has previous progress
+  loadUserProgress();
+  showQuizScreen();
+}
+
+function showQuizScreen() {
+  loginScreen.style.display = "none";
+  quizScreen.style.display = "block";
+  userNameEl.textContent = currentUser;
+  loadQuestion();
+}
+
+function loadUserProgress() {
+  const savedIndex = localStorage.getItem('quizIndex_' + currentUser);
+  const savedScore = localStorage.getItem('quizScore_' + currentUser);
+  
+  if (savedIndex !== null) {
+    index = parseInt(savedIndex);
+    score = parseInt(savedScore) || 0;
+  } else {
+    index = 0;
+    score = 0;
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem('quizIndex_' + currentUser, index);
+  localStorage.setItem('quizScore_' + currentUser, score);
+}
+
 function loadQuestion() {
+  if (index >= questions.length) {
+    showScore();
+    return;
+  }
+  
   answered = false;
   nextBtn.style.display = "none";
   optEl.innerHTML = "";
-  progressEl.textContent = `Question ${index+1} sur ${questions.length}`;
+  progressEl.textContent = `Question ${index+1} sur ${questions.length} | Score: ${score}`;
 
   const q = questions[index];
   qEl.textContent = q.q;
@@ -205,12 +347,16 @@ function selectAnswer(btn, i) {
     if (idx === i && idx !== correct) b.classList.add("wrong");
   });
 
-  if (i === correct) score++;
+  if (i === correct) {
+    score++;
+    saveProgress();
+  }
   nextBtn.style.display = "block";
 }
 
 nextBtn.onclick = () => {
   index++;
+  saveProgress();
   if (index < questions.length) {
     loadQuestion();
   } else {
@@ -221,14 +367,93 @@ nextBtn.onclick = () => {
 function showScore() {
   document.getElementById("quiz").style.display = "none";
   scoreEl.style.display = "block";
+  const percentage = Math.round((score/questions.length)*100);
   scoreEl.innerHTML = `
     <h2>Quiz terminé 🎉</h2>
+    <p>Félicitations <strong>${currentUser}</strong> !</p>
     <p>Votre score : <strong>${score} / ${questions.length}</strong></p>
-    <p>${Math.round((score/questions.length)*100)} %</p>
+    <p style="font-size:28px;color:#0078d4;font-weight:bold;">${percentage} %</p>
+    <button class="restart-btn" onclick="restartQuiz()">Recommencer le quiz</button>
   `;
+  
+  // Post results to API and reset everything
+  postResultsToAPI(percentage);
 }
 
-loadQuestion();
+function postResultsToAPI(percentage) {
+  const results = {
+    name: currentUser,
+    score: score,
+    totalQuestions: questions.length,
+    percentage: percentage,
+    completedAt: new Date().toISOString()
+  };
+  
+  fetch('https://httpdump.app/dumps/11d9c63e-f4d6-4f5c-aa69-8bb1fc6160c5', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(results)
+  })
+  .then(response => {
+    console.log('Results posted successfully:', response.status);
+    // Reset everything after successful post
+    resetEverything();
+  })
+  .catch(error => {
+    console.error('Error posting results:', error);
+    // Reset anyway even if post failed
+    resetEverything();
+  });
+}
+
+function resetEverything() {
+  // Clear all localStorage data for this user
+  localStorage.removeItem('quizUser');
+  localStorage.removeItem('quizIndex_' + currentUser);
+  localStorage.removeItem('quizScore_' + currentUser);
+  
+  // Reset all variables
+  currentUser = null;
+  index = 0;
+  score = 0;
+  answered = false;
+  
+  // Reset UI after a short delay to let user see their final score
+  setTimeout(() => {
+    scoreEl.style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    quizScreen.style.display = "none";
+    loginScreen.style.display = "block";
+    nameInput.value = "";
+  }, 3000); // 3 second delay to show final score
+}
+
+function restartQuiz() {
+  index = 0;
+  score = 0;
+  saveProgress();
+  scoreEl.style.display = "none";
+  document.getElementById("quiz").style.display = "block";
+  loadQuestion();
+}
+
+function logout() {
+  if (confirm("Êtes-vous sûr de vouloir vous déconnecter ? Votre progression sera sauvegardée.")) {
+    localStorage.removeItem('quizUser');
+    currentUser = null;
+    index = 0;
+    score = 0;
+    answered = false;
+    
+    quizScreen.style.display = "none";
+    loginScreen.style.display = "block";
+    nameInput.value = "";
+    scoreEl.style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+  }
+}
 </script>
 </body>
 </html>
