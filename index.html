@@ -96,41 +96,76 @@
 </div>
 
 <script>
+// const questions = [
+//   { q:"Qu’est-ce que l’élasticité du cloud ?", o:["Tarification fixe","Mise à l’échelle manuelle","Mise à l’échelle à la demande","Utilisation d’un seul serveur"], a:2 },
+//   { q:"Quel modèle cloud nécessite le plus de gestion côté client ?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
+//   { q:"Qu’est-ce qu’une région Azure ?", o:["Une machine virtuelle","Un centre de données","Une zone géographique avec des centres de données","Un sous-réseau"], a:2 },
+//   { q:"Les zones de disponibilité sont conçues pour se protéger contre :", o:["La panne d’une région","La panne d’un centre de données","Uniquement les pannes réseau","L’augmentation des coûts"], a:1 },
+//   { q:"Combien de zones de disponibilité y a-t-il généralement dans une région ?", o:["1","2","3","10"], a:2 },
+//   { q:"Quel service fournit des serveurs virtuels dans Azure ?", o:["Azure App Service","Azure VM","Azure Functions","Azure Blob"], a:1 },
+//   { q:"Quel type de mise à l’échelle augmente la taille d’une VM ?", o:["Horizontale","Verticale","Élastique","Automatique"], a:1 },
+//   { q:"Quel type de mise à l’échelle ajoute des instances de VM ?", o:["Verticale","Manuelle","Horizontale","Statique"], a:2 },
+//   { q:"Quel service Azure fournit la mise à l’échelle automatique des VM ?", o:["App Service","VM Scale Sets","Azure Monitor","Azure Storage"], a:1 },
+//   { q:"Quelle disponibilité peut être atteinte avec des VM dans plusieurs zones ?", o:["99,5 %","99,9 %","99,95 %","99,99 %"], a:3 },
+
+//   { q:"Quel service est de type Platform as a Service (PaaS) ?", o:["Azure VM","Azure App Service","Azure Disk","Azure VNet"], a:1 },
+//   { q:"Qui gère les mises à jour du système d’exploitation en PaaS ?", o:["Le client","Azure","Un tiers","Personne"], a:1 },
+//   { q:"Quel type de stockage est un stockage objet ?", o:["Azure Disks","Azure Files","Azure Blob","Azure Tables"], a:2 },
+//   { q:"Quel stockage est le plus adapté aux disques système des VM ?", o:["Blob","Files","Disks","Queues"], a:2 },
+//   { q:"Quel niveau Blob est le moins cher pour l’archivage à long terme ?", o:["Hot","Cool","Cold","Archive"], a:3 },
+//   { q:"Quelle règle de nommage de compte de stockage est correcte ?", o:["Unique par groupe de ressources","Unique par région","Globalement unique","Sensible à la casse"], a:2 },
+//   { q:"Quel service Azure fournit un réseau privé ?", o:["Azure DNS","Azure VNet","Azure CDN","Azure Monitor"], a:1 },
+//   { q:"Qu’est-ce qui sépare les ressources publiques et privées ?", o:["Les régions","Les zones","Les sous-réseaux","Les pare-feu"], a:2 },
+//   { q:"Qu’est-ce qui contrôle le trafic à l’intérieur d’un VNet ?", o:["Azure Firewall","NSG","DDoS","CDN"], a:1 },
+//   { q:"Qu’est-ce qui protège contre les attaques réseau à grande échelle ?", o:["NSG","Azure Monitor","Azure DDoS","Azure VPN"], a:2 },
+
+//   { q:"Qu’est-ce qu’un groupe de ressources ?", o:["Une unité de facturation","Un conteneur logique","Un abonnement","Une région"], a:1 },
+//   { q:"À combien de groupes de ressources une ressource peut-elle appartenir ?", o:["Plusieurs","Deux","Un seul","Illimité"], a:2 },
+//   { q:"Supprimer un groupe de ressources :", o:["Conserve les ressources","Déplace les ressources","Supprime les ressources","Archive les ressources"], a:2 },
+//   { q:"Quelle unité est utilisée pour gérer la facturation ?", o:["Région","Groupe de ressources","Abonnement","VNet"], a:2 },
+//   { q:"Les abonnements peuvent-ils être fusionnés ?", o:["Oui","Non","Seulement payants","Seulement gratuits"], a:1 },
+//   { q:"Quel est le niveau le plus élevé dans la hiérarchie Azure ?", o:["Abonnement","Groupe de ressources","Groupe de gestion","Ressource"], a:2 },
+//   { q:"Les balises (tags) sont principalement utilisées pour :", o:["La sécurité","Le réseau","La gestion des coûts","La disponibilité"], a:2 },
+//   { q:"Quel modèle de service nécessite le moins de gestion ?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
+//   { q:"Azure App Service est le mieux adapté pour :", o:["Les bases de données","L’hébergement de VM","Les applications web","Le réseau"], a:2 },
+//   { q:"Quel service est requis avant de créer la plupart des ressources Azure ?", o:["VNet","Stockage","Abonnement","Région"], a:2 }
+// ];
 const questions = [
-  { q:"Qu’est-ce que l’élasticité du cloud ?", o:["Tarification fixe","Mise à l’échelle manuelle","Mise à l’échelle à la demande","Utilisation d’un seul serveur"], a:2 },
-  { q:"Quel modèle cloud nécessite le plus de gestion côté client ?", o:["SaaS","PaaS","IaaS","Serverless"], a:2 },
-  { q:"Qu’est-ce qu’une région Azure ?", o:["Une machine virtuelle","Un centre de données","Une zone géographique avec des centres de données","Un sous-réseau"], a:2 },
-  { q:"Les zones de disponibilité sont conçues pour se protéger contre :", o:["La panne d’une région","La panne d’un centre de données","Uniquement les pannes réseau","L’augmentation des coûts"], a:1 },
-  { q:"Combien de zones de disponibilité y a-t-il généralement dans une région ?", o:["1","2","3","10"], a:2 },
-  { q:"Quel service fournit des serveurs virtuels dans Azure ?", o:["Azure App Service","Azure VM","Azure Functions","Azure Blob"], a:1 },
-  { q:"Quel type de mise à l’échelle augmente la taille d’une VM ?", o:["Horizontale","Verticale","Élastique","Automatique"], a:1 },
-  { q:"Quel type de mise à l’échelle ajoute des instances de VM ?", o:["Verticale","Manuelle","Horizontale","Statique"], a:2 },
-  { q:"Quel service Azure fournit la mise à l’échelle automatique des VM ?", o:["App Service","VM Scale Sets","Azure Monitor","Azure Storage"], a:1 },
-  { q:"Quelle disponibilité peut être atteinte avec des VM dans plusieurs zones ?", o:["99,5 %","99,9 %","99,95 %","99,99 %"], a:3 },
+  { q:"Quel est le principal objectif du cloud computing ?", o:["Remplacer Internet","Fournir des ressources informatiques à la demande","Créer des logiciels","Stocker uniquement des fichiers"], a:1 },
+  { q:"Quel type de cloud est partagé entre plusieurs organisations ?", o:["Cloud privé","Cloud hybride","Cloud public","Cloud local"], a:2 },
+  { q:"Quel type de cloud est dédié à une seule organisation ?", o:["Cloud public","Cloud privé","Cloud communautaire","Cloud hybride"], a:1 },
+  { q:"Le cloud hybride combine :", o:["Cloud public et privé","Deux clouds publics","Deux régions","Deux abonnements"], a:0 },
+  { q:"Quel est un exemple de service SaaS ?", o:["Azure Virtual Machine","Azure SQL Database","Microsoft 365","Azure Storage"], a:2 },
 
-  { q:"Quel service est de type Platform as a Service (PaaS) ?", o:["Azure VM","Azure App Service","Azure Disk","Azure VNet"], a:1 },
-  { q:"Qui gère les mises à jour du système d’exploitation en PaaS ?", o:["Le client","Azure","Un tiers","Personne"], a:1 },
-  { q:"Quel type de stockage est un stockage objet ?", o:["Azure Disks","Azure Files","Azure Blob","Azure Tables"], a:2 },
-  { q:"Quel stockage est le plus adapté aux disques système des VM ?", o:["Blob","Files","Disks","Queues"], a:2 },
-  { q:"Quel niveau Blob est le moins cher pour l’archivage à long terme ?", o:["Hot","Cool","Cold","Archive"], a:3 },
-  { q:"Quelle règle de nommage de compte de stockage est correcte ?", o:["Unique par groupe de ressources","Unique par région","Globalement unique","Sensible à la casse"], a:2 },
-  { q:"Quel service Azure fournit un réseau privé ?", o:["Azure DNS","Azure VNet","Azure CDN","Azure Monitor"], a:1 },
-  { q:"Qu’est-ce qui sépare les ressources publiques et privées ?", o:["Les régions","Les zones","Les sous-réseaux","Les pare-feu"], a:2 },
-  { q:"Qu’est-ce qui contrôle le trafic à l’intérieur d’un VNet ?", o:["Azure Firewall","NSG","DDoS","CDN"], a:1 },
-  { q:"Qu’est-ce qui protège contre les attaques réseau à grande échelle ?", o:["NSG","Azure Monitor","Azure DDoS","Azure VPN"], a:2 },
+  { q:"Quel service Azure permet d’exécuter du code sans gérer de serveur ?", o:["Azure VM","Azure Functions","Azure App Service","Azure Kubernetes"], a:1 },
+  { q:"Quel service est utilisé pour gérer des conteneurs Kubernetes ?", o:["Azure VM","Azure Container Registry","Azure Kubernetes Service","Azure App Service"], a:2 },
+  { q:"Quel avantage principal offre la haute disponibilité ?", o:["Réduction des coûts","Meilleure sécurité","Continuité du service","Plus de stockage"], a:2 },
+  { q:"Quel mécanisme Azure permet la reprise après sinistre ?", o:["Scalabilité","Réplication","Sauvegarde","Surveillance"], a:1 },
+  { q:"Quel service Azure est utilisé pour sauvegarder des données ?", o:["Azure Monitor","Azure Backup","Azure Advisor","Azure Firewall"], a:1 },
 
-  { q:"Qu’est-ce qu’un groupe de ressources ?", o:["Une unité de facturation","Un conteneur logique","Un abonnement","Une région"], a:1 },
-  { q:"À combien de groupes de ressources une ressource peut-elle appartenir ?", o:["Plusieurs","Deux","Un seul","Illimité"], a:2 },
-  { q:"Supprimer un groupe de ressources :", o:["Conserve les ressources","Déplace les ressources","Supprime les ressources","Archive les ressources"], a:2 },
-  { q:"Quelle unité est utilisée pour gérer la facturation ?", o:["Région","Groupe de ressources","Abonnement","VNet"], a:2 },
-  { q:"Les abonnements peuvent-ils être fusionnés ?", o:["Oui","Non","Seulement payants","Seulement gratuits"], a:1 },
-  { q:"Quel est le niveau le plus élevé dans la hiérarchie Azure ?", o:["Abonnement","Groupe de ressources","Groupe de gestion","Ressource"], a:2 },
-  { q:"Les balises (tags) sont principalement utilisées pour :", o:["La sécurité","Le réseau","La gestion des coûts","La disponibilité"], a:2 },
-  { q:"Quel modèle de service nécessite le moins de gestion ?", o:["IaaS","PaaS","SaaS","VM"], a:2 },
-  { q:"Azure App Service est le mieux adapté pour :", o:["Les bases de données","L’hébergement de VM","Les applications web","Le réseau"], a:2 },
-  { q:"Quel service est requis avant de créer la plupart des ressources Azure ?", o:["VNet","Stockage","Abonnement","Région"], a:2 }
+  { q:"Quelle ressource est nécessaire pour créer une machine virtuelle ?", o:["Groupe de gestion","Abonnement","Région","Compte utilisateur"], a:1 },
+  { q:"Quel élément définit où une ressource est déployée ?", o:["Abonnement","Groupe de ressources","Région","Balise"], a:2 },
+  { q:"Quel service Azure fournit des bases de données relationnelles managées ?", o:["Azure VM","Azure Blob Storage","Azure SQL Database","Azure Files"], a:2 },
+  { q:"Quel service est utilisé pour surveiller les performances ?", o:["Azure Advisor","Azure Monitor","Azure Security Center","Azure Backup"], a:1 },
+  { q:"Quel service donne des recommandations Azure ?", o:["Azure Monitor","Azure Advisor","Azure Firewall","Azure Policy"], a:1 },
+
+  { q:"Quel type de stockage est accessible via SMB ?", o:["Azure Blob","Azure Files","Azure Disks","Azure Tables"], a:1 },
+  { q:"Quel service Azure est utilisé pour stocker des messages ?", o:["Azure Files","Azure Queues","Azure Tables","Azure Disks"], a:1 },
+  { q:"Quel service permet de contrôler l’accès aux ressources ?", o:["Azure Policy","Azure Monitor","Azure Backup","Azure CDN"], a:0 },
+  { q:"Quel service gère les identités et accès dans Azure ?", o:["Azure IAM","Azure Active Directory","Azure DNS","Azure Firewall"], a:1 },
+  { q:"Quel concept repose sur le principe du moindre privilège ?", o:["Scalabilité","Haute disponibilité","Sécurité","Facturation"], a:2 },
+
+  { q:"Quel service protège les applications web contre les attaques ?", o:["Azure VPN","Azure Firewall","Web Application Firewall (WAF)","NSG"], a:2 },
+  { q:"Quel outil permet de restreindre les types de ressources créées ?", o:["Azure Monitor","Azure Policy","Azure Advisor","Azure Backup"], a:1 },
+  { q:"Quel élément permet de regrouper des abonnements ?", o:["Groupe de ressources","Région","Groupe de gestion","Balise"], a:2 },
+  { q:"Quel élément est utilisé pour organiser les coûts ?", o:["Régions","Balises (Tags)","VNets","Zones"], a:1 },
+  { q:"Quel modèle de tarification Azure est utilisé ?", o:["Paiement fixe","Paiement à l’usage","Abonnement annuel obligatoire","Licence unique"], a:1 },
+
+  { q:"Quel service Azure est utilisé pour connecter un réseau local à Azure ?", o:["Azure CDN","Azure VPN Gateway","Azure Firewall","Azure DNS"], a:1 },
+  { q:"Quel service fournit un réseau de diffusion de contenu ?", o:["Azure Monitor","Azure CDN","Azure VNet","Azure ExpressRoute"], a:1 },
+  { q:"Quel service permet une connexion privée dédiée à Azure ?", o:["Azure VPN","Azure ExpressRoute","Azure Firewall","Azure CDN"], a:1 },
+  { q:"Quel est l’objectif principal de la conformité ?", o:["Performance","Sécurité","Respect des normes légales","Réduction des coûts"], a:2 }
 ];
-
 let index = 0;
 let score = 0;
 let answered = false;
