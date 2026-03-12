@@ -1,257 +1,776 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz AZ-900 – Fondamentaux Azure</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Big Data & Hadoop Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --accent: #00e5ff;
+    --accent2: #ff3d71;
+    --accent3: #a259ff;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --correct: #00e096;
+    --wrong: #ff3d71;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0078d4, #003a6d);
-    margin: 0;
-    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%;
+    left: -20%;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(162,89,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .container {
-    max-width: 800px;
-    background: #fff;
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
   }
-  h1 {
+
+  /* HEADER */
+  header {
     text-align: center;
-    color: #0078d4;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease both;
   }
-  .question {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
+
+  .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,229,255,0.3);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
   }
-  .option {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: #f7f7f7;
-    cursor: pointer;
-    text-align: left;
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    color: var(--muted);
     font-size: 15px;
+    font-family: 'Space Mono', monospace;
   }
-  .option:hover {
-    background: #eef6ff;
-    border-color: #0078d4;
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--surface);
+    border-radius: 4px;
+    height: 6px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    border: 1px solid var(--border);
   }
-  .correct {
-    background: #d4edda;
-    border-color: #28a745;
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
   }
-  .wrong {
-    background: #f8d7da;
-    border-color: #dc3545;
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
   }
-  .next-btn {
-    display: none;
+
+  /* CARD */
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 40px;
+    animation: fadeUp 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
+    opacity: 0.6;
+  }
+
+  .q-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .q-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 28px;
+    color: #fff;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option:hover:not(.disabled) {
+    border-color: var(--accent);
+    background: rgba(0,229,255,0.04);
+    transform: translateX(4px);
+  }
+
+  .option-letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .option:hover:not(.disabled) .option-letter {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .option.correct {
+    border-color: var(--correct);
+    background: rgba(0,224,150,0.08);
+  }
+
+  .option.correct .option-letter {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: #000;
+  }
+
+  .option.wrong {
+    border-color: var(--wrong);
+    background: rgba(255,61,113,0.08);
+  }
+
+  .option.wrong .option-letter {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: #fff;
+  }
+
+  .option.disabled { cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
     margin-top: 20px;
-    padding: 12px 20px;
-    background: #0078d4;
-    color: white;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    display: none;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .feedback.show { display: block; }
+
+  .feedback.correct-fb {
+    background: rgba(0,224,150,0.08);
+    border: 1px solid rgba(0,224,150,0.3);
+    color: var(--correct);
+  }
+
+  .feedback.wrong-fb {
+    background: rgba(255,61,113,0.08);
+    border: 1px solid rgba(255,61,113,0.3);
+    color: #ff8fab;
+  }
+
+  .feedback strong { color: #fff; }
+
+  /* NEXT BUTTON */
+  .btn-next {
+    margin-top: 28px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
     border: none;
     border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #000;
     cursor: pointer;
-    font-size: 16px;
+    display: none;
+    transition: all 0.2s;
   }
-  .next-btn:hover {
-    background: #005fa3;
+
+  .btn-next:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,229,255,0.2);
   }
-  .progress {
-    text-align: right;
-    color: #555;
+
+  .btn-next.show { display: block; animation: fadeUp 0.3s ease both; }
+
+  /* RESULTS */
+  .results {
+    display: none;
+    text-align: center;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .results.show { display: block; }
+
+  .score-ring {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+
+  .score-ring svg {
+    transform: rotate(-90deg);
+  }
+
+  .score-ring circle {
+    fill: none;
+    stroke-width: 8;
+  }
+
+  .score-ring .bg { stroke: var(--surface); }
+  .score-ring .fill {
+    stroke: var(--accent);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .score-num {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .score-denom {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .result-title {
+    font-size: 1.8rem;
+    font-weight: 800;
     margin-bottom: 10px;
   }
-  .score {
-    text-align: center;
-    font-size: 22px;
+
+  .result-msg {
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .stat-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .stat-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-val.green { color: var(--correct); }
+  .stat-val.red { color: var(--wrong); }
+  .stat-val.blue { color: var(--accent); }
+
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn-restart {
+    padding: 16px 48px;
+    background: transparent;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-restart:hover {
+    background: rgba(0,229,255,0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,229,255,0.15);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 540px) {
+    .quiz-card { padding: 24px 20px; }
+    .stats-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
-
 <body>
 <div class="container">
-  <h1>Quiz AZ-900</h1>
-  <p style="text-align:center;color:#666">
-    Fondamentaux Azure – 30 questions
-  </p>
+  <header>
+    <div class="tag">Weeks 1 & 2</div>
+    <h1>Big Data &<br>Hadoop Quiz</h1>
+    <p class="subtitle">20 questions · Test your knowledge</p>
+  </header>
 
-  <div id="quiz">
-    <div class="progress" id="progress"></div>
-    <div class="question" id="question"></div>
-    <div id="options"></div>
-    <button class="next-btn" id="nextBtn">Suivant</button>
+  <div id="quiz-area">
+    <div class="progress-info">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="score-live">Score: 0</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="quiz-card" id="quiz-card">
+      <div class="q-number" id="q-num">QUESTION 01</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next Question →</button>
+    </div>
   </div>
 
-  <div class="score" id="score" style="display:none;"></div>
+  <div class="results" id="results">
+    <div class="score-ring">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle class="bg" cx="80" cy="80" r="68"/>
+        <circle class="fill" id="ring-fill" cx="80" cy="80" r="68"
+          stroke-dasharray="427" stroke-dashoffset="427"/>
+      </svg>
+      <div class="score-text">
+        <div class="score-num" id="final-score">0</div>
+        <div class="score-denom">/ 20</div>
+      </div>
+    </div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-val green" id="stat-correct">0</span>
+        <span class="stat-label">Correct</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val red" id="stat-wrong">0</span>
+        <span class="stat-label">Wrong</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val blue" id="stat-pct">0%</span>
+        <span class="stat-label">Accuracy</span>
+      </div>
+    </div>
+    <button class="btn-restart" onclick="restartQuiz()">↺ Restart Quiz</button>
+  </div>
 </div>
 
 <script>
 const questions = [
-{ q:"Quel est l’avantage principal des paires de régions Azure ?", o:["Réduction des coûts","Mises à jour simultanées","Isolation des pannes régionales","Accès Internet plus rapide"], a:2 },
+  {
+    q: "What does Big Data refer to?",
+    options: [
+      "Datasets stored in a single powerful machine",
+      "Datasets too large, fast, or complex for traditional database systems",
+      "Any dataset larger than 1 GB",
+      "Data that must be processed in real-time only"
+    ],
+    answer: 1,
+    explanation: "Big Data refers to datasets that are too large, too fast, or too complex to be processed using traditional database systems."
+  },
+  {
+    q: "Which of the following is NOT one of the 5Vs of Big Data?",
+    options: ["Velocity", "Veracity", "Visibility", "Variety"],
+    answer: 2,
+    explanation: "The 5Vs are Volume, Velocity, Variety, Veracity, and Value. Visibility is not one of them."
+  },
+  {
+    q: "In the 5V model, which V represents the ultimate goal of Big Data?",
+    options: ["Volume", "Veracity", "Variety", "Value"],
+    answer: 3,
+    explanation: "Value is the ultimate goal — the other Vs are challenges to overcome to reach actionable business insight."
+  },
+  {
+    q: "According to the CAP Theorem, which property is considered MANDATORY in a distributed system?",
+    options: ["Consistency", "Availability", "Partition Tolerance", "Performance"],
+    answer: 2,
+    explanation: "Partition Tolerance is mandatory because network failures are inevitable in distributed systems."
+  },
+  {
+    q: "What is the default block size in HDFS?",
+    options: ["64 MB", "256 MB", "512 MB", "128 MB"],
+    answer: 3,
+    explanation: "HDFS uses a large block size of 128 MB by default to optimize for large sequential reads."
+  },
+  {
+    q: "What is the default replication factor in HDFS?",
+    options: ["2", "3", "4", "5"],
+    answer: 1,
+    explanation: "HDFS keeps 3 copies (replication factor of 3) of each block on different DataNodes for fault tolerance."
+  },
+  {
+    q: "What is the role of the NameNode in HDFS?",
+    options: [
+      "Physically stores data blocks",
+      "Executes MapReduce jobs",
+      "Manages metadata such as file names and block locations",
+      "Allocates CPU resources to containers"
+    ],
+    answer: 2,
+    explanation: "The NameNode is the master that manages metadata — file names, directory structure, and block locations."
+  },
+  {
+    q: "In a 500 MB file stored in HDFS with 128 MB blocks, how many blocks are created?",
+    options: ["3 blocks", "4 blocks", "5 blocks", "2 blocks"],
+    answer: 1,
+    explanation: "500 MB = 3 × 128 MB blocks + 1 × 116 MB block = 4 blocks total."
+  },
+  {
+    q: "What does the 'Data Locality' principle mean in Hadoop?",
+    options: [
+      "Data is stored close to the user geographically",
+      "Computation is moved to where the data is, not the other way around",
+      "All data blocks are stored on a single node",
+      "Data is processed locally on the client machine"
+    ],
+    answer: 1,
+    explanation: "Data Locality means 'move computation to data, not data to computation,' which reduces network traffic and speeds up processing."
+  },
+  {
+    q: "Which data format is described as columnar binary and best suited for Spark/Big Data analytics?",
+    options: ["CSV", "JSON", "Parquet", "XML"],
+    answer: 2,
+    explanation: "Parquet is a columnar binary format offering efficient compression, fast queries, and schema support — ideal for Spark and Big Data analytics."
+  },
+  {
+    q: "What does YARN stand for?",
+    options: [
+      "Yet Another Resource Negotiator",
+      "Your Allocated Resource Node",
+      "YARN Assigns Resources Now",
+      "Yet Another Replication Network"
+    ],
+    answer: 0,
+    explanation: "YARN stands for Yet Another Resource Negotiator, introduced in Hadoop 2.x to decouple storage from processing."
+  },
+  {
+    q: "In the MapReduce model, what does the Shuffle & Sort phase do?",
+    options: [
+      "Splits input data into chunks for mappers",
+      "Groups key-value pairs so all values for the same key go to the same reducer",
+      "Counts word frequencies in the final output",
+      "Distributes containers across NodeManagers"
+    ],
+    answer: 1,
+    explanation: "The Shuffle & Sort phase sorts and groups key-value pairs by key, so all values for the same key are sent to the same reducer."
+  },
+  {
+    q: "In a WordCount MapReduce job with input 'Hello Hadoop Hello Big Data', what does the Reduce phase output for 'Hello'?",
+    options: ["(Hello, 1)", "(Hello, 3)", "(Hello, 2)", "(Hello, [1,1])"],
+    answer: 2,
+    explanation: "The word 'Hello' appears twice, so after the Map emits (Hello,1)(Hello,1), the Reduce phase sums them to output (Hello, 2)."
+  },
+  {
+    q: "In the Erasure Coding formula n = k + m, what does 'k' represent?",
+    options: [
+      "Total fragments stored across nodes",
+      "Number of parity fragments",
+      "Number of original data fragments",
+      "Minimum nodes required for the cluster"
+    ],
+    answer: 2,
+    explanation: "In the formula n = k + m, k is the number of original data fragments, m is the parity fragments, and n is the total fragments stored."
+  },
+  {
+    q: "Which YARN component is responsible for global cluster resource allocation?",
+    options: ["NodeManager", "ApplicationMaster", "ResourceManager", "Container"],
+    answer: 2,
+    explanation: "The ResourceManager is the global cluster resource manager that decides CPU and RAM allocation across the cluster."
+  },
+  {
+    q: "What is the role of an ApplicationMaster in YARN?",
+    options: [
+      "Monitors available resources per node and manages container execution",
+      "Coordinates tasks for one application and requests containers from ResourceManager",
+      "Stores metadata for all running jobs",
+      "Physically executes data reads on DataNodes"
+    ],
+    answer: 1,
+    explanation: "The ApplicationMaster is created per-job and coordinates tasks, requests containers from the ResourceManager, and restarts failed tasks."
+  },
+  {
+    q: "Which is a known LIMITATION of HDFS?",
+    options: [
+      "Cannot store files larger than 1 TB",
+      "Does not support fault tolerance",
+      "Not suitable for managing many small files due to NameNode memory overhead",
+      "Requires all data to be in CSV format"
+    ],
+    answer: 2,
+    explanation: "HDFS is not suitable for managing many small files because each file requires metadata stored in the NameNode's memory, creating overhead."
+  },
+  {
+    q: "What are the three core components of Apache Hadoop?",
+    options: [
+      "HDFS, Spark, and Kafka",
+      "HDFS, YARN, and MapReduce",
+      "NameNode, DataNode, and Container",
+      "ZooKeeper, Hive, and HBase"
+    ],
+    answer: 1,
+    explanation: "Hadoop's three core components are HDFS (storage), YARN (resource management), and MapReduce (processing engine)."
+  },
+  {
+    q: "In HDFS write operations, how is block replication achieved?",
+    options: [
+      "The NameNode directly copies each block to all DataNodes simultaneously",
+      "The client sends the block to each DataNode separately",
+      "The first DataNode replicates the block to others via a pipeline",
+      "Replication only happens after the full file is uploaded"
+    ],
+    answer: 2,
+    explanation: "During a write, the client sends the first block to the first DataNode, which then replicates to other DataNodes via a pipeline."
+  },
+  {
+    q: "Why was YARN introduced in Hadoop 2.x?",
+    options: [
+      "To replace HDFS as the new storage layer",
+      "To enable multiple frameworks (Spark, Tez, Flink) to share a cluster by decoupling storage from processing",
+      "To double the replication factor to 6 for better fault tolerance",
+      "To eliminate the need for a NameNode"
+    ],
+    answer: 1,
+    explanation: "YARN was introduced to decouple storage (HDFS) from processing, enabling multiple application frameworks like MapReduce, Spark, and Flink to share the same cluster."
+  }
+];
 
-{ q:"Quelle affirmation est vraie concernant les Availability Zones ?", o:["Elles existent dans toutes les régions Azure","Elles partagent la même alimentation électrique","Elles sont interconnectées par un réseau à faible latence","Elles remplacent les régions"], a:2 },
-
-{ q:"Quelle configuration offre une disponibilité de 99,99 % pour des VM ?", o:["Une VM avec SSD Premium","Deux VM dans un Availability Set","Deux VM dans des Availability Zones","Une VM avec sauvegarde"], a:2 },
-
-{ q:"Quel service Azure permet de gérer jusqu’à 1000 VM avec auto-scaling ?", o:["Availability Set","Azure App Service","Virtual Machine Scale Sets","Azure Container Instances"], a:2 },
-
-{ q:"Quelle responsabilité reste au client dans un modèle PaaS ?", o:["Mises à jour du système d’exploitation","Disponibilité de la plateforme","Code applicatif","Correctifs de sécurité"], a:2 },
-
-{ q:"Quel service est le plus adapté pour exécuter un conteneur unique rapidement ?", o:["AKS","Azure App Service","Azure Container Instances","Service Fabric"], a:2 },
-
-{ q:"Quel composant est essentiel pour une architecture microservices à grande échelle ?", o:["Azure VM","Availability Set","Orchestrateur de conteneurs","Azure Files"], a:2 },
-
-{ q:"Quelle caractéristique distingue Azure Functions ?", o:["Facturation par VM","Serveurs dédiés","Facturation à l’exécution","Système d’exploitation personnalisable"], a:2 },
-
-{ q:"Quel type de service cloud est Microsoft 365 ?", o:["IaaS","PaaS","SaaS","FaaS"], a:2 },
-
-{ q:"Quel service offre une connectivité privée sans passer par Internet ?", o:["VPN site-à-site","Azure Bastion","Azure ExpressRoute","Peering VNet"], a:2 },
-
-{ q:"Quelle solution protège au niveau couche 7 (application) ?", o:["NSG","Azure DDoS Basic","Web Application Firewall","Azure Firewall"], a:2 },
-
-{ q:"Quelle affirmation concernant NSG est correcte ?", o:["Il est externe au VNet","Il agit avant Azure Firewall","Il filtre le trafic entrant et sortant","Il remplace Azure Firewall"], a:2 },
-
-{ q:"Quel service permet un accès privé à Azure SQL depuis un VNet ?", o:["Service Endpoint","Azure Firewall","Azure Private Link","Peering VNet"], a:2 },
-
-{ q:"Quel est le rôle principal d’Azure Bastion ?", o:["Load balancing","Accès sécurisé aux VM","Protection DDoS","Peering réseau"], a:1 },
-
-{ q:"Quel type de stockage est utilisé par les disques de VM ?", o:["Objet","Fichier","Bloc","Archive"], a:2 },
-
-{ q:"Quel stockage est idéal pour des fichiers rarement consultés sur le long terme ?", o:["Hot","Cool","Archive","Premium"], a:2 },
-
-{ q:"Quel niveau de stockage Blob a la latence la plus élevée ?", o:["Hot","Cool","Cold","Archive"], a:3 },
-
-{ q:"Quelle option permet l’accès en lecture à une région secondaire ?", o:["GRS","ZRS","RA-GRS","LRS"], a:2 },
-
-{ q:"Quel service est recommandé pour le Big Data analytique ?", o:["Azure Files","Azure SQL","Azure Data Lake Gen2","Azure Tables"], a:2 },
-
-{ q:"Quel compte de stockage offre la plus faible latence ?", o:["Standard","Premium","GRS","Archive"], a:1 },
-
-{ q:"Quel service permet de synchroniser des fichiers on-prem avec Azure ?", o:["Azure Files","Azure File Sync","Blob Sync","Azure Backup"], a:1 },
-
-{ q:"Quelle affirmation sur les comptes de stockage est vraie ?", o:["Le nom est unique par groupe de ressources","Le nom est unique par abonnement","Le nom est unique globalement","Le nom est unique par région"], a:2 },
-
-{ q:"Quel outil CLI permet de copier massivement des données vers Azure Storage ?", o:["Azure CLI","Azure Storage Explorer","AzCopy","PowerShell"], a:2 },
-
-{ q:"Quel service découple les applications via messagerie ?", o:["Azure Tables","Azure Blobs","Azure Queues","Azure Files"], a:2 },
-
-{ q:"Quel composant Azure isole logiquement les ressources ?", o:["Souscription","Groupe de ressources","Réseau virtuel","Région"], a:2 },
-
-{ q:"Quelle ressource peut appartenir à plusieurs groupes de ressources ?", o:["VM","Stockage","Aucune","Réseau"], a:2 },
-
-{ q:"Que se passe-t-il lors de la suppression d’un groupe de ressources ?", o:["Les ressources sont déplacées","Les ressources sont arrêtées","Toutes les ressources sont supprimées","Rien"], a:2 },
-
-{ q:"Quel niveau gère les politiques sur plusieurs abonnements ?", o:["Ressource","Groupe de ressources","Abonnement","Groupe de gestion"], a:3 },
-
-{ q:"Quelle affirmation sur les abonnements est correcte ?", o:["Ils peuvent être fusionnés","Ils ont des quotas","Ils sont gratuits","Ils sont régionaux"], a:1 },
-
-{ q:"Quel modèle cloud combine on-prem et cloud public ?", o:["Privé","Public","Hybride","Multi-tenant"], a:2 },
-
-{ q:"Quel service Azure est spécifique à la gestion hybride ?", o:["Azure Monitor","Azure Arc","Azure Policy","Azure Backup"], a:1 },
-
-{ q:"Quel service protège automatiquement contre les attaques réseau courantes ?", o:["Azure Firewall","WAF","DDoS Basic","NSG"], a:2 },
-
-{ q:"Quel service permet une gestion centralisée de sécurité réseau ?", o:["NSG","Azure Firewall","VNet","Peering"], a:1 },
-
-{ q:"Quel service est facturé uniquement à l’exécution ?", o:["VM","App Service","Azure Functions","AKS"], a:2 },
-
-{ q:"Quel modèle cloud offre le moins de contrôle sur l’infrastructure ?", o:["IaaS","PaaS","SaaS","Hybride"], a:2 },
-
-{ q:"Quelle responsabilité appartient toujours au client ?", o:["Sécurité physique","Disponibilité datacenter","Gestion des accès","Redondance matérielle"], a:2 },
-
-{ q:"Quel service permet le déploiement sans temps d’arrêt de conteneurs ?", o:["ACI","VM","AKS","Azure Files"], a:2 },
-
-{ q:"Quel service est le mieux adapté pour une application événementielle ?", o:["VM","App Service","Azure Functions","Service Fabric"], a:2 },
-
-{ q:"Quelle option VPN chiffre le trafic via Internet ?", o:["ExpressRoute","Peering","Site-to-Site VPN","Private Link"], a:2 },
-
-{ q:"Quelle option offre la plus grande bande passante ?", o:["VPN","Peering","ExpressRoute","Bastion"], a:2 },
-
-{ q:"Quel service Azure est considéré FaaS ?", o:["App Service","Functions","AKS","VM"], a:1 },
-
-{ q:"Quel élément n’est PAS une responsabilité Azure en IaaS ?", o:["Sécurité du datacenter","Matériel","Système d’exploitation","Réseau physique"], a:2 },
-
-{ q:"Quel service est recommandé pour héberger une API REST managée ?", o:["VM","Azure App Service","Azure Files","Azure Backup"], a:1 },
-
-{ q:"Quel composant empêche l’accès direct à une base de données depuis Internet ?", o:["NSG","Private Endpoint","Load Balancer","Availability Set"], a:1 },
-
-{ q:"Quelle solution permet d’éviter les coûts pendant zéro trafic ?", o:["VM réservée","App Service","Azure Functions","AKS"], a:2 },
-
-{ q:"Quel service permet de gérer VMware on-prem depuis Azure ?", o:["Azure Stack","Azure Arc","Azure Backup","Azure Monitor"], a:1 },
-
-{ q:"Quelle option offre la meilleure tolérance aux pannes régionales ?", o:["LRS","ZRS","GRS","RA-GZRS"], a:3 }
-]
-
-let index = 0;
+let current = 0;
 let score = 0;
 let answered = false;
 
-const qEl = document.getElementById("question");
-const optEl = document.getElementById("options");
-const nextBtn = document.getElementById("nextBtn");
-const scoreEl = document.getElementById("score");
-const progressEl = document.getElementById("progress");
-
 function loadQuestion() {
   answered = false;
-  nextBtn.style.display = "none";
-  optEl.innerHTML = "";
-  progressEl.textContent = `Question ${index+1} sur ${questions.length}`;
+  const q = questions[current];
+  document.getElementById('q-num').textContent = `QUESTION ${String(current+1).padStart(2,'0')}`;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-counter').textContent = `Question ${current+1} of 20`;
+  document.getElementById('score-live').textContent = `Score: ${score}`;
+  document.getElementById('progress-bar').style.width = `${(current / 20) * 100}%`;
 
-  const q = questions[index];
-  qEl.textContent = q.q;
-
-  q.o.forEach((opt, i) => {
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.textContent = opt;
-    btn.onclick = () => selectAnswer(btn, i);
-    optEl.appendChild(btn);
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    div.onclick = () => selectOption(i);
+    opts.appendChild(div);
   });
+
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  // Re-animate card
+  const card = document.getElementById('quiz-card');
+  card.style.animation = 'none';
+  requestAnimationFrame(() => { card.style.animation = 'fadeUp 0.35s ease both'; });
 }
 
-function selectAnswer(btn, i) {
+function selectOption(idx) {
   if (answered) return;
   answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => o.classList.add('disabled'));
 
-  const correct = questions[index].a;
-  document.querySelectorAll(".option").forEach((b, idx) => {
-    b.disabled = true;
-    if (idx === correct) b.classList.add("correct");
-    if (idx === i && idx !== correct) b.classList.add("wrong");
-  });
-
-  if (i === correct) score++;
-  nextBtn.style.display = "block";
+  const fb = document.getElementById('feedback');
+  if (idx === q.answer) {
+    score++;
+    opts[idx].classList.add('correct');
+    fb.className = 'feedback correct-fb show';
+    fb.innerHTML = `<strong>✓ Correct!</strong> ${q.explanation}`;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.answer].classList.add('correct');
+    fb.className = 'feedback wrong-fb show';
+    fb.innerHTML = `<strong>✗ Not quite.</strong> ${q.explanation}`;
+  }
+  document.getElementById('score-live').textContent = `Score: ${score}`;
+  document.getElementById('btn-next').className = 'btn-next show';
 }
 
-nextBtn.onclick = () => {
-  index++;
-  if (index < questions.length) {
-    loadQuestion();
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResults();
   } else {
-    showScore();
+    loadQuestion();
   }
-};
+}
 
-function showScore() {
-  document.getElementById("quiz").style.display = "none";
-  scoreEl.style.display = "block";
-  scoreEl.innerHTML = `
-    <h2>Quiz terminé 🎉</h2>
-    <p>Votre score : <strong>${score} / ${questions.length}</strong></p>
-    <p>${Math.round((score/questions.length)*100)} %</p>
-  `;
+function showResults() {
+  document.getElementById('quiz-area').style.display = 'none';
+  const res = document.getElementById('results');
+  res.classList.add('show');
+
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('stat-correct').textContent = score;
+  document.getElementById('stat-wrong').textContent = 20 - score;
+  document.getElementById('stat-pct').textContent = Math.round((score/20)*100) + '%';
+
+  const pct = score / 20;
+  const circumference = 427;
+  const offset = circumference - (pct * circumference);
+  setTimeout(() => {
+    document.getElementById('ring-fill').style.strokeDashoffset = offset;
+    const fill = document.getElementById('ring-fill');
+    if (pct >= 0.8) fill.style.stroke = '#00e096';
+    else if (pct >= 0.5) fill.style.stroke = '#00e5ff';
+    else fill.style.stroke = '#ff3d71';
+  }, 100);
+
+  let title, msg;
+  if (score === 20)      { title = "Perfect Score! 🏆"; msg = "Flawless. You've mastered Big Data & Hadoop.\nReady for the advanced modules."; }
+  else if (score >= 17)  { title = "Excellent! 🎉"; msg = "Outstanding performance. You have a strong\ngrasp of Hadoop and distributed systems."; }
+  else if (score >= 14)  { title = "Great Work! 👍"; msg = "Solid understanding. Review the few topics\nyou missed and you'll be fully ready."; }
+  else if (score >= 10)  { title = "Good Effort 📚"; msg = "You know the basics. Go back through the\nsummary and revisit the weaker areas."; }
+  else                   { title = "Keep Studying 💪"; msg = "The material takes time. Re-read Weeks 1 & 2\nand try again — you've got this."; }
+
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+}
+
+function restartQuiz() {
+  current = 0;
+  score = 0;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('ring-fill').style.strokeDashoffset = 427;
+  loadQuestion();
 }
 
 loadQuestion();
