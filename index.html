@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Big Data & Hadoop Quiz</title>
+<title>Big Data Week 3 Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -37,7 +37,7 @@
     left: -20%;
     width: 80vw;
     height: 80vw;
-    background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(162,89,255,0.05) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -49,7 +49,7 @@
     right: -10%;
     width: 60vw;
     height: 60vw;
-    background: radial-gradient(circle, rgba(162,89,255,0.05) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -62,7 +62,6 @@
     z-index: 1;
   }
 
-  /* HEADER */
   header {
     text-align: center;
     margin-bottom: 48px;
@@ -73,10 +72,10 @@
     display: inline-block;
     font-family: 'Space Mono', monospace;
     font-size: 11px;
-    color: var(--accent);
+    color: var(--accent3);
     letter-spacing: 3px;
     text-transform: uppercase;
-    border: 1px solid rgba(0,229,255,0.3);
+    border: 1px solid rgba(162,89,255,0.3);
     padding: 4px 12px;
     border-radius: 2px;
     margin-bottom: 16px;
@@ -86,7 +85,7 @@
     font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    background: linear-gradient(135deg, #fff 30%, var(--accent3) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -99,7 +98,6 @@
     font-family: 'Space Mono', monospace;
   }
 
-  /* PROGRESS */
   .progress-bar-wrap {
     background: var(--surface);
     border-radius: 4px;
@@ -111,7 +109,7 @@
 
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    background: linear-gradient(90deg, var(--accent3), var(--accent));
     border-radius: 4px;
     transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
     width: 0%;
@@ -126,7 +124,6 @@
     margin-bottom: 10px;
   }
 
-  /* CARD */
   .quiz-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -142,14 +139,14 @@
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
-    opacity: 0.6;
+    background: linear-gradient(90deg, var(--accent3), var(--accent), var(--accent2));
+    opacity: 0.7;
   }
 
   .q-number {
     font-family: 'Space Mono', monospace;
     font-size: 11px;
-    color: var(--accent);
+    color: var(--accent3);
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 16px;
@@ -163,7 +160,6 @@
     color: #fff;
   }
 
-  /* OPTIONS */
   .options {
     display: flex;
     flex-direction: column;
@@ -187,8 +183,8 @@
   }
 
   .option:hover:not(.disabled) {
-    border-color: var(--accent);
-    background: rgba(0,229,255,0.04);
+    border-color: var(--accent3);
+    background: rgba(162,89,255,0.06);
     transform: translateX(4px);
   }
 
@@ -209,8 +205,8 @@
   }
 
   .option:hover:not(.disabled) .option-letter {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent3);
+    color: var(--accent3);
   }
 
   .option.correct {
@@ -237,7 +233,6 @@
 
   .option.disabled { cursor: default; }
 
-  /* FEEDBACK */
   .feedback {
     margin-top: 20px;
     padding: 14px 18px;
@@ -264,12 +259,11 @@
 
   .feedback strong { color: #fff; }
 
-  /* NEXT BUTTON */
   .btn-next {
     margin-top: 28px;
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    background: linear-gradient(135deg, var(--accent3), var(--accent));
     border: none;
     border-radius: 8px;
     font-family: 'Syne', sans-serif;
@@ -285,12 +279,11 @@
   .btn-next:hover {
     opacity: 0.9;
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(0,229,255,0.2);
+    box-shadow: 0 8px 24px rgba(162,89,255,0.25);
   }
 
   .btn-next.show { display: block; animation: fadeUp 0.3s ease both; }
 
-  /* RESULTS */
   .results {
     display: none;
     text-align: center;
@@ -306,9 +299,7 @@
     position: relative;
   }
 
-  .score-ring svg {
-    transform: rotate(-90deg);
-  }
+  .score-ring svg { transform: rotate(-90deg); }
 
   .score-ring circle {
     fill: none;
@@ -317,7 +308,7 @@
 
   .score-ring .bg { stroke: var(--surface); }
   .score-ring .fill {
-    stroke: var(--accent);
+    stroke: var(--accent3);
     stroke-linecap: round;
     transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1);
   }
@@ -333,7 +324,7 @@
   .score-num {
     font-size: 2.8rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    background: linear-gradient(135deg, #fff 30%, var(--accent3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -358,6 +349,7 @@
     font-size: 13px;
     margin-bottom: 36px;
     line-height: 1.7;
+    white-space: pre-line;
   }
 
   .stats-grid {
@@ -383,7 +375,7 @@
 
   .stat-val.green { color: var(--correct); }
   .stat-val.red { color: var(--wrong); }
-  .stat-val.blue { color: var(--accent); }
+  .stat-val.blue { color: var(--accent3); }
 
   .stat-label {
     font-family: 'Space Mono', monospace;
@@ -396,21 +388,21 @@
   .btn-restart {
     padding: 16px 48px;
     background: transparent;
-    border: 2px solid var(--accent);
+    border: 2px solid var(--accent3);
     border-radius: 8px;
     font-family: 'Syne', sans-serif;
     font-weight: 700;
     font-size: 15px;
     letter-spacing: 1px;
-    color: var(--accent);
+    color: var(--accent3);
     cursor: pointer;
     transition: all 0.2s;
   }
 
   .btn-restart:hover {
-    background: rgba(0,229,255,0.1);
+    background: rgba(162,89,255,0.1);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,229,255,0.15);
+    box-shadow: 0 8px 24px rgba(162,89,255,0.2);
   }
 
   @keyframes fadeUp {
@@ -432,9 +424,9 @@
 <body>
 <div class="container">
   <header>
-    <div class="tag">Weeks 1 & 2</div>
-    <h1>Big Data &<br>Hadoop Quiz</h1>
-    <p class="subtitle">20 questions · Test your knowledge</p>
+    <div class="tag">Week 3</div>
+    <h1>Big Data<br>Ecosystem Quiz</h1>
+    <p class="subtitle">20 questions · Spark, Storage & Beyond</p>
   </header>
 
   <div id="quiz-area">
@@ -490,179 +482,224 @@
 <script>
 const questions = [
   {
-    q: "What does Big Data refer to?",
+    q: "What is the main performance problem with MapReduce that motivated the creation of Apache Spark?",
     options: [
-      "Datasets stored in a single powerful machine",
-      "Datasets too large, fast, or complex for traditional database systems",
-      "Any dataset larger than 1 GB",
-      "Data that must be processed in real-time only"
+      "MapReduce cannot run on more than 100 nodes",
+      "MapReduce writes intermediate results to disk (HDFS) between every step",
+      "MapReduce only supports the Python programming language",
+      "MapReduce requires manual data partitioning by the developer"
     ],
     answer: 1,
-    explanation: "Big Data refers to datasets that are too large, too fast, or too complex to be processed using traditional database systems."
+    explanation: "MapReduce writes every Map and Reduce result to HDFS between steps, causing heavy disk I/O. This makes it very slow for iterative jobs that require many passes over the data."
   },
   {
-    q: "Which of the following is NOT one of the 5Vs of Big Data?",
-    options: ["Velocity", "Veracity", "Visibility", "Variety"],
+    q: "How does Apache Spark achieve up to 100× speed improvement over MapReduce?",
+    options: [
+      "By using more powerful hardware and SSDs",
+      "By running only on cloud infrastructure",
+      "By keeping intermediate data in RAM instead of writing to disk between steps",
+      "By skipping the Reduce phase entirely"
+    ],
     answer: 2,
-    explanation: "The 5Vs are Volume, Velocity, Variety, Veracity, and Value. Visibility is not one of them."
+    explanation: "Spark's core idea is to keep intermediate data in RAM (memory) rather than writing it to disk between steps. This dramatically speeds up iterative algorithms."
   },
   {
-    q: "In the 5V model, which V represents the ultimate goal of Big Data?",
-    options: ["Volume", "Veracity", "Variety", "Value"],
+    q: "What does RDD stand for in Apache Spark?",
+    options: [
+      "Remote Data Distribution",
+      "Resilient Distributed Dataset",
+      "Replicated Data Directory",
+      "Rapid Data Deployment"
+    ],
+    answer: 1,
+    explanation: "RDD stands for Resilient Distributed Dataset — the core abstraction in Spark. It is an immutable, distributed collection of objects spread across the cluster."
+  },
+  {
+    q: "What does 'lazy evaluation' mean in the context of Spark RDDs?",
+    options: [
+      "Spark processes data slower to save resources",
+      "Transformations are recorded but not executed until an Action is called",
+      "RDDs are only created when the cluster has free memory",
+      "Spark waits 60 seconds before executing any job"
+    ],
+    answer: 1,
+    explanation: "Lazy evaluation means Spark records every transformation but does not execute any of them until an Action (like count, collect, or save) is triggered. This allows Spark to optimize the full pipeline."
+  },
+  {
+    q: "What does DAG stand for in Spark's execution model?",
+    options: [
+      "Data Aggregation Grid",
+      "Distributed Application Graph",
+      "Directed Acyclic Graph",
+      "Dynamic Allocation of GPUs"
+    ],
+    answer: 2,
+    explanation: "DAG stands for Directed Acyclic Graph. Spark builds a DAG of all transformations before executing them, allowing it to optimize the entire pipeline and minimize data movement."
+  },
+  {
+    q: "Which of the following is NOT part of the Spark ecosystem?",
+    options: [
+      "Spark SQL",
+      "MLlib",
+      "GraphX",
+      "Spark YARN Manager"
+    ],
     answer: 3,
-    explanation: "Value is the ultimate goal — the other Vs are challenges to overcome to reach actionable business insight."
+    explanation: "The Spark ecosystem includes Spark SQL, Spark Streaming, MLlib (machine learning), and GraphX (graph computation). 'Spark YARN Manager' is not a Spark component — YARN is a separate Hadoop resource manager."
   },
   {
-    q: "According to the CAP Theorem, which property is considered MANDATORY in a distributed system?",
-    options: ["Consistency", "Availability", "Partition Tolerance", "Performance"],
-    answer: 2,
-    explanation: "Partition Tolerance is mandatory because network failures are inevitable in distributed systems."
-  },
-  {
-    q: "What is the default block size in HDFS?",
-    options: ["64 MB", "256 MB", "512 MB", "128 MB"],
-    answer: 3,
-    explanation: "HDFS uses a large block size of 128 MB by default to optimize for large sequential reads."
-  },
-  {
-    q: "What is the default replication factor in HDFS?",
-    options: ["2", "3", "4", "5"],
-    answer: 1,
-    explanation: "HDFS keeps 3 copies (replication factor of 3) of each block on different DataNodes for fault tolerance."
-  },
-  {
-    q: "What is the role of the NameNode in HDFS?",
+    q: "What is Apache Hive best described as?",
     options: [
-      "Physically stores data blocks",
-      "Executes MapReduce jobs",
-      "Manages metadata such as file names and block locations",
-      "Allocates CPU resources to containers"
-    ],
-    answer: 2,
-    explanation: "The NameNode is the master that manages metadata — file names, directory structure, and block locations."
-  },
-  {
-    q: "In a 500 MB file stored in HDFS with 128 MB blocks, how many blocks are created?",
-    options: ["3 blocks", "4 blocks", "5 blocks", "2 blocks"],
-    answer: 1,
-    explanation: "500 MB = 3 × 128 MB blocks + 1 × 116 MB block = 4 blocks total."
-  },
-  {
-    q: "What does the 'Data Locality' principle mean in Hadoop?",
-    options: [
-      "Data is stored close to the user geographically",
-      "Computation is moved to where the data is, not the other way around",
-      "All data blocks are stored on a single node",
-      "Data is processed locally on the client machine"
+      "A NoSQL database for real-time lookups",
+      "A SQL-like query layer on top of HDFS that translates queries into MapReduce or Spark jobs",
+      "A distributed message queue for streaming events",
+      "A cloud object storage service"
     ],
     answer: 1,
-    explanation: "Data Locality means 'move computation to data, not data to computation,' which reduces network traffic and speeds up processing."
+    explanation: "Apache Hive adds a SQL-like query layer on top of HDFS. It translates SQL queries into MapReduce or Spark jobs, making it ideal for analysts who know SQL but don't want to write code."
   },
   {
-    q: "Which data format is described as columnar binary and best suited for Spark/Big Data analytics?",
-    options: ["CSV", "JSON", "Parquet", "XML"],
-    answer: 2,
-    explanation: "Parquet is a columnar binary format offering efficient compression, fast queries, and schema support — ideal for Spark and Big Data analytics."
-  },
-  {
-    q: "What does YARN stand for?",
+    q: "How does Apache HBase differ from regular HDFS?",
     options: [
-      "Yet Another Resource Negotiator",
-      "Your Allocated Resource Node",
-      "YARN Assigns Resources Now",
-      "Yet Another Replication Network"
-    ],
-    answer: 0,
-    explanation: "YARN stands for Yet Another Resource Negotiator, introduced in Hadoop 2.x to decouple storage from processing."
-  },
-  {
-    q: "In the MapReduce model, what does the Shuffle & Sort phase do?",
-    options: [
-      "Splits input data into chunks for mappers",
-      "Groups key-value pairs so all values for the same key go to the same reducer",
-      "Counts word frequencies in the final output",
-      "Distributes containers across NodeManagers"
+      "HBase stores data in the cloud while HDFS is on-premise",
+      "HBase supports random read/write access, while HDFS is designed for write-once sequential access",
+      "HBase compresses files using Parquet format automatically",
+      "HBase replaces the NameNode with a distributed metadata service"
     ],
     answer: 1,
-    explanation: "The Shuffle & Sort phase sorts and groups key-value pairs by key, so all values for the same key are sent to the same reducer."
+    explanation: "HDFS is designed for write-once, sequential access. HBase is a columnar NoSQL database built on HDFS that supports random read/write access — perfect for fast lookups by key like user profiles or sensor readings."
   },
   {
-    q: "In a WordCount MapReduce job with input 'Hello Hadoop Hello Big Data', what does the Reduce phase output for 'Hello'?",
-    options: ["(Hello, 1)", "(Hello, 3)", "(Hello, 2)", "(Hello, [1,1])"],
-    answer: 2,
-    explanation: "The word 'Hello' appears twice, so after the Map emits (Hello,1)(Hello,1), the Reduce phase sums them to output (Hello, 2)."
-  },
-  {
-    q: "In the Erasure Coding formula n = k + m, what does 'k' represent?",
+    q: "Which of the following is an example of Object Storage?",
     options: [
-      "Total fragments stored across nodes",
-      "Number of parity fragments",
-      "Number of original data fragments",
-      "Minimum nodes required for the cluster"
+      "Apache HBase",
+      "Apache Hive",
+      "Amazon S3",
+      "Apache Kafka"
     ],
     answer: 2,
-    explanation: "In the formula n = k + m, k is the number of original data fragments, m is the parity fragments, and n is the total fragments stored."
+    explanation: "Amazon S3 (Simple Storage Service) is a cloud-native object storage service. Others include Google Cloud Storage and Azure Blob. These are the cloud alternative to HDFS, increasingly used to decouple storage from computation."
   },
   {
-    q: "Which YARN component is responsible for global cluster resource allocation?",
-    options: ["NodeManager", "ApplicationMaster", "ResourceManager", "Container"],
-    answer: 2,
-    explanation: "The ResourceManager is the global cluster resource manager that decides CPU and RAM allocation across the cluster."
-  },
-  {
-    q: "What is the role of an ApplicationMaster in YARN?",
+    q: "What does OLTP stand for, and what is it used for?",
     options: [
-      "Monitors available resources per node and manages container execution",
-      "Coordinates tasks for one application and requests containers from ResourceManager",
-      "Stores metadata for all running jobs",
-      "Physically executes data reads on DataNodes"
+      "Online Transfer Protocol — for moving data between clusters",
+      "Online Transaction Processing — for managing day-to-day operational data",
+      "Optimized Large Table Processing — for Big Data analytics",
+      "Object-Level Transfer Pipeline — for cloud migrations"
     ],
     answer: 1,
-    explanation: "The ApplicationMaster is created per-job and coordinates tasks, requests containers from the ResourceManager, and restarts failed tasks."
+    explanation: "OLTP stands for Online Transaction Processing. It is used for managing day-to-day operations like bank ATMs, e-commerce orders, and login systems, with short frequent reads/writes."
   },
   {
-    q: "Which is a known LIMITATION of HDFS?",
+    q: "Which database type is best suited for running complex analytical queries over millions of rows of historical data?",
     options: [
-      "Cannot store files larger than 1 TB",
-      "Does not support fault tolerance",
-      "Not suitable for managing many small files due to NameNode memory overhead",
-      "Requires all data to be in CSV format"
-    ],
-    answer: 2,
-    explanation: "HDFS is not suitable for managing many small files because each file requires metadata stored in the NameNode's memory, creating overhead."
-  },
-  {
-    q: "What are the three core components of Apache Hadoop?",
-    options: [
-      "HDFS, Spark, and Kafka",
-      "HDFS, YARN, and MapReduce",
-      "NameNode, DataNode, and Container",
-      "ZooKeeper, Hive, and HBase"
+      "OLTP — PostgreSQL or MySQL",
+      "OLAP — Hive, BigQuery, or Snowflake",
+      "HBase with random read access",
+      "HDFS directly with MapReduce"
     ],
     answer: 1,
-    explanation: "Hadoop's three core components are HDFS (storage), YARN (resource management), and MapReduce (processing engine)."
+    explanation: "OLAP (Online Analytical Processing) systems like Hive, BigQuery, Redshift, and Snowflake are optimized for complex queries with aggregations, GROUP BY, and JOINs across millions of rows — ideal for BI dashboards and analytics."
   },
   {
-    q: "In HDFS write operations, how is block replication achieved?",
+    q: "What is Apache Kafka primarily used for?",
     options: [
-      "The NameNode directly copies each block to all DataNodes simultaneously",
-      "The client sends the block to each DataNode separately",
-      "The first DataNode replicates the block to others via a pipeline",
-      "Replication only happens after the full file is uploaded"
+      "Batch processing of nightly log files into HDFS",
+      "Bridging relational databases with the Hadoop ecosystem",
+      "Real-time event streaming — producers publish events to topics and consumers process them immediately",
+      "Storing structured SQL tables in a columnar format"
     ],
     answer: 2,
-    explanation: "During a write, the client sends the first block to the first DataNode, which then replicates to other DataNodes via a pipeline."
+    explanation: "Apache Kafka is a distributed message queue and event streaming platform. Producers publish events (clicks, transactions) to topics, and consumers subscribe and process them in real time — like a continuous conveyor belt of data."
   },
   {
-    q: "Why was YARN introduced in Hadoop 2.x?",
+    q: "What is Apache Flume designed to do?",
     options: [
-      "To replace HDFS as the new storage layer",
-      "To enable multiple frameworks (Spark, Tez, Flink) to share a cluster by decoupling storage from processing",
-      "To double the replication factor to 6 for better fault tolerance",
-      "To eliminate the need for a NameNode"
+      "Process SQL queries on top of HDFS",
+      "Collect and move large volumes of log data (e.g. web server logs) into HDFS",
+      "Stream real-time events between microservices",
+      "Transfer tables from a relational database into Hadoop"
     ],
     answer: 1,
-    explanation: "YARN was introduced to decouple storage (HDFS) from processing, enabling multiple application frameworks like MapReduce, Spark, and Flink to share the same cluster."
+    explanation: "Apache Flume is a tool for collecting and moving large amounts of log data — like web server logs and application logs — into HDFS. It works like a bucket brigade, scooping logs from servers and pouring them into HDFS."
+  },
+  {
+    q: "What problem does Apache Sqoop solve?",
+    options: [
+      "It speeds up MapReduce jobs by caching results in RAM",
+      "It monitors cluster health and restarts failed containers",
+      "It bridges relational databases (MySQL, PostgreSQL, Oracle) with Hadoop by transferring tables in and out",
+      "It compresses HDFS files using Erasure Coding"
+    ],
+    answer: 2,
+    explanation: "Apache Sqoop acts like a cable between old SQL databases and the Big Data world. It transfers tables from relational databases into HDFS or Hive and vice versa, making it useful for migrating legacy data."
+  },
+  {
+    q: "What is the key difference between Batch Ingestion and Stream Ingestion?",
+    options: [
+      "Batch ingestion uses Kafka; stream ingestion uses Flume",
+      "Batch collects data over time and processes it all at once; stream processes each event as it arrives in real time",
+      "Batch ingestion only works for structured data; stream ingestion handles unstructured data",
+      "Batch ingestion requires YARN; stream ingestion bypasses it"
+    ],
+    answer: 1,
+    explanation: "Batch ingestion collects data over time and processes it all at once (like a nightly ETL job). Stream ingestion processes each event as it arrives in real time. Kafka is a streaming tool; Flume and Sqoop are typically used for batch."
+  },
+  {
+    q: "In the Lambda Architecture, what does the Batch Layer do?",
+    options: [
+      "Processes only recent data with low latency and approximate results",
+      "Merges real-time and historical views to answer user queries",
+      "Reprocesses ALL historical data to produce accurate but slow results",
+      "Routes incoming data to either the speed or serving layer"
+    ],
+    answer: 2,
+    explanation: "The Batch Layer (e.g., Hadoop/Spark) reprocesses ALL historical data periodically. It produces highly accurate results but with high latency — results can take hours to compute."
+  },
+  {
+    q: "In the Lambda Architecture, what is the purpose of the Speed Layer?",
+    options: [
+      "To permanently store all raw data for future reprocessing",
+      "To process only recent data in real time for low-latency approximate results",
+      "To serve pre-computed batch views to users",
+      "To manage cluster resources across the entire system"
+    ],
+    answer: 1,
+    explanation: "The Speed Layer (e.g., Kafka + Spark Streaming) processes only recent data in real time. Results are fast but approximate. It compensates for the high latency of the batch layer."
+  },
+  {
+    q: "What is a Data Lake?",
+    options: [
+      "A structured data warehouse optimized for fast analytical queries",
+      "A hybrid system combining a data warehouse and object storage",
+      "A storage system that stores raw data in its original format — structured, semi-structured, and unstructured — all in one place",
+      "A real-time stream processing platform like Kafka"
+    ],
+    answer: 2,
+    explanation: "A Data Lake stores raw data in its original format — any type, any structure — usually in Object Storage like S3. No transformation is required upfront. It is cheap and flexible, but requires governance to avoid becoming a 'data swamp'."
+  },
+  {
+    q: "How does a Data Warehouse differ from a Data Lake?",
+    options: [
+      "A Data Warehouse stores raw unprocessed data; a Data Lake stores only structured data",
+      "A Data Warehouse stores cleaned, structured, transformed data optimized for fast analytics; a Data Lake stores raw data in any format",
+      "A Data Warehouse uses Kafka for ingestion; a Data Lake uses Sqoop",
+      "A Data Warehouse runs on HDFS; a Data Lake runs on YARN"
+    ],
+    answer: 1,
+    explanation: "A Data Warehouse (e.g., Redshift, BigQuery, Snowflake) stores cleaned, structured, and transformed data optimized for fast analytical queries. A Data Lake stores raw data in any format. The Lakehouse combines both approaches."
+  },
+  {
+    q: "Which technology represents the 'Lakehouse' architecture?",
+    options: [
+      "Apache Kafka and Apache Flume",
+      "Amazon S3 and Google Cloud Storage",
+      "Apache Delta Lake and Apache Iceberg",
+      "Apache Sqoop and Apache Hive"
+    ],
+    answer: 2,
+    explanation: "Technologies like Apache Delta Lake and Apache Iceberg implement the Lakehouse architecture — combining the low-cost raw storage of a Data Lake with the performance and ACID transaction support of a Data Warehouse."
   }
 ];
 
@@ -694,7 +731,6 @@ function loadQuestion() {
   document.getElementById('feedback').innerHTML = '';
   document.getElementById('btn-next').className = 'btn-next';
 
-  // Re-animate card
   const card = document.getElementById('quiz-card');
   card.style.animation = 'none';
   requestAnimationFrame(() => { card.style.animation = 'fadeUp 0.35s ease both'; });
@@ -749,16 +785,16 @@ function showResults() {
     document.getElementById('ring-fill').style.strokeDashoffset = offset;
     const fill = document.getElementById('ring-fill');
     if (pct >= 0.8) fill.style.stroke = '#00e096';
-    else if (pct >= 0.5) fill.style.stroke = '#00e5ff';
+    else if (pct >= 0.5) fill.style.stroke = '#a259ff';
     else fill.style.stroke = '#ff3d71';
   }, 100);
 
   let title, msg;
-  if (score === 20)      { title = "Perfect Score! 🏆"; msg = "Flawless. You've mastered Big Data & Hadoop.\nReady for the advanced modules."; }
-  else if (score >= 17)  { title = "Excellent! 🎉"; msg = "Outstanding performance. You have a strong\ngrasp of Hadoop and distributed systems."; }
-  else if (score >= 14)  { title = "Great Work! 👍"; msg = "Solid understanding. Review the few topics\nyou missed and you'll be fully ready."; }
-  else if (score >= 10)  { title = "Good Effort 📚"; msg = "You know the basics. Go back through the\nsummary and revisit the weaker areas."; }
-  else                   { title = "Keep Studying 💪"; msg = "The material takes time. Re-read Weeks 1 & 2\nand try again — you've got this."; }
+  if (score === 20)      { title = "Perfect Score! 🏆"; msg = "Flawless. You've fully mastered the Modern Big Data Ecosystem.\nReady for hands-on Spark coding next week."; }
+  else if (score >= 17)  { title = "Excellent! 🎉"; msg = "Outstanding performance. You have a strong grasp\nof Spark, storage layers, ingestion, and cloud architectures."; }
+  else if (score >= 14)  { title = "Great Work! 👍"; msg = "Solid understanding. Review the few topics you missed\nand you'll be fully ready for Week 4."; }
+  else if (score >= 10)  { title = "Good Effort 📚"; msg = "You know the basics. Go back through the Week 3 summary\nand revisit Lambda Architecture and storage types."; }
+  else                   { title = "Keep Studying 💪"; msg = "The material takes time. Re-read the Week 3 slides\nand try again — you've got this."; }
 
   document.getElementById('result-title').textContent = title;
   document.getElementById('result-msg').textContent = msg;
